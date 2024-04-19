@@ -1,0 +1,7 @@
+.vscode
+swagger/node_modules
+main
+package-lock.json
+cmd/__debug_bin*
+warrant-pkcs8.pem
+gin-bin

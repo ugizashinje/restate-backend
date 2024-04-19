@@ -1,0 +1,198 @@
+{
+	"info": {
+		"_postman_id": "3d79d900-7032-4254-9086-e53cb064455d",
+		"name": "getWarrantEntities",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30114533"
+	},
+	"item": [
+		{
+			"name": "getAddress",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{server}}/addresses/{{addressId}}/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"addresses",
+						"{{addressId}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCompany",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/companies/{{companyId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"companies",
+						"{{companyId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getVehicle",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/vehicles/{{vehicleId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"vehicles",
+						"{{vehicleId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/users/{{userId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getDriverCategory",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/driverCategories/{{driverCategoryId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"driverCategories",
+						"{{driverCategoryId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getWarrant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/warrants/{{warrantId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"warrants",
+						"{{warrantId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getRoute",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/routes/{{routeId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"routes",
+						"{{routeId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTransportCosts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/transportCosts/{{transportCostsId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"transportCosts",
+						"{{transportCostsId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getShippingInvoice",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/shippinginvoices/{{shippingInvoiceId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"shippinginvoices",
+						"{{shippingInvoiceId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getRepair",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/repairs/{{repairId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"repairs",
+						"{{repairId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,410 @@
+{
+	"info": {
+		"_postman_id": "11fdbf5f-0586-426a-8356-6efc7869aff1",
+		"name": "createWarrantEntities",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30114533"
+	},
+	"item": [
+		{
+			"name": "createAddress",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"addressId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"city\": \"New City 123\",\r\n  \"street\": \"New Street 123\",\r\n  \"streetNo\": \"789567\",\r\n  \"name\": \"New Address Name 123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/addresses/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"addresses",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createCompany",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"companyId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"New Company 123\",\r\n  \"short\": \"NewCo123\",\r\n  \"pib\": \"98765432144\",\r\n  \"addressId\": \"{{addressId}}\",\r\n  \"mn\": \"123456789sadsa\",\r\n  \"phone\": \"+987654321asdsad\",\r\n  \"email\": \"newcompany@example1.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/companies/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"companies",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createVehicle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"vehicleId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"plate\": \"New Plate\",\r\n  \"model\": \"New Model\",\r\n  \"producer\": \"New Producer\",\r\n  \"type\": \"New Type\",\r\n  \"weight\": 2000,\r\n  \"maxWeight\": 3000,\r\n  \"capacity\": 5,\r\n  \"homologationMark\": \"New Homologation Mark\",\r\n  \"motorVolume\": 2000,\r\n  \"power\": 150,\r\n  \"fuel\": \"New Fuel\",\r\n  \"consumption\": 10.5,\r\n  \"thrustWeight\": 15,\r\n  \"standingSpace\": 2,\r\n  \"seatingSpace\": 5,\r\n  \"color\": \"New Color\",\r\n  \"shaft\": 2,\r\n  \"chasie\": \"New Chasie\",\r\n  \"motor\": \"New Motor\",\r\n  \"insurance\": \"New Insurance\",\r\n  \"registrationDate\": \"2023-01-01\",\r\n  \"firstRegistrationDate\": \"2022-01-01\",\r\n  \"ownerMn\": 1234567890123,\r\n  \"ownerLastName\": \"New Owner Last Name\",\r\n  \"ownerAddressId\": \"{{addressId}}\",\r\n  \"userFirstName\": \"New User First Name\",\r\n  \"userLastName\": \"New User Last Name\",\r\n  \"userAddressId\": \"{{addressId}}\",\r\n  \"userMn\": 9876543210987,\r\n  \"registrationCertificateDate\": \"2023-01-01\",\r\n  \"registrationExpiry\": \"2023-01-01\",\r\n  \"registerId\": 123,\r\n  \"meta\": {\r\n    \"additionalProp1\": \"string\",\r\n    \"additionalProp2\": \"string\",\r\n    \"additionalProp3\": \"string\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/vehicles/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"vehicles",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"userId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"newuser@example.com\",\r\n    \"password\":\"newpassword\",\r\n    \"firstName\":\"New\",\r\n    \"lastName\":\"User\",\r\n    \"mn\":\"987654321\",\r\n    \"birthplace\":\"birthplace\",\r\n    \"phone\":\"987654321\",\r\n    \"companyId\":\"{{companyId}}\",\r\n    \"addressId\":\"{{addressId}}\",\r\n    \"isDriver\":true,\r\n    \"licenceNumber\": \"New Licence Number\",\r\n    \"licenceSerialNumber\": \"New Serial Number\",\r\n    \"licenceExpiry\": \"2023-01-01\",\r\n    \"licenceIssued\": \"2022-01-01\",\r\n    \"licenceAuthority\": \"New Authority\",\r\n    \"roles\":[\"dispatcher\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createDriverCategory",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"driverCategoryId\", responseBody.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\":\"{{userId}}\",\r\n    \"category\":\"New Category\",\r\n    \"issued\":\"2022-01-01\",\r\n    \"expired\":\"2023-01-01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/driverCategories/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"driverCategories",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createWarrant",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"warrantId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"expectedStart\": \"2006-01-02 15:04:05\",\r\n  \"driverId\": \"{{userId}}\",\r\n  \"vehicleId\": \"{{vehicleId}}\",\r\n  \"companyId\": \"{{companyId}}\",\r\n  \"dispatcherId\": \"{{userId}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/warrants/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"warrants",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createRoute",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"routeId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startAddressId\":\"{{addressId}}\",\r\n  \"startTime\":\"2022-01-01 15:04:05\",\r\n  \"endAddressId\":\"{{addressId}}\",\r\n  \"endTime\":\"2022-01-01 15:04:05\",\r\n  \"warrantId\":\"{{warrantId}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/routes/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"routes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createTransportCosts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"transportCostsId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"warrantId\": \"{{warrantId}}\",\r\n  \"type\": \"type\",\r\n  \"code\": \"code\",\r\n  \"content\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/transportCosts/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"transportCosts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createShippinginvoices",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"shippingInvoiceId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"routeId\": \"{{routeId}}\",\r\n  \"side\":\"start\",\r\n  \"status\":\"status\",\r\n  \"externalInvoiceId\": \"externalInvoiceId\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/shippinginvoices/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"shippinginvoices",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createRepair",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"repairId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"warrantId\": \"{{warrantId}}\",\r\n  \"addressId\":\"{{addressId}}\",\r\n  \"workshop\":\"workshop\",\r\n  \"repairType\":\"repairType\",\r\n  \"start\": \"2022-01-01 15:04:05\",\r\n  \"end\": \"2023-01-01 15:04:05\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/repairs/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"repairs",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

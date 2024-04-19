@@ -1,0 +1,7 @@
+FROM golang:1.20
+WORKDIR /warrant-api
+COPY . .
+RUN  go mod download
+EXPOSE 8080
+CMD ["go", "run", "cmd/emailValidationToken/validation_server.go"]
+# CMD ["/bin/bash"]

@@ -1,0 +1,281 @@
+{
+	"info": {
+		"_postman_id": "8344e32d-0852-4f32-9754-5bb63ba11b59",
+		"name": "patchWarrantEntities",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30114533"
+	},
+	"item": [
+		{
+			"name": "patchAddress",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"city\": \"Updated City\",\r\n    \"street\": \"Updated Street\",\r\n    \"streetNo\": \"456\",\r\n    \"name\": \"Updated Address Name\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/addresses/{{addressId}}/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"addresses",
+						"{{addressId}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchCompany",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"short\": \"NewCo\",\r\n    \"addressId\": \"{{addressId}}\",\r\n    \"phone\": \"+987654321\",\r\n    \"email\": \"updatedcompany@example.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/companies/{{companyId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"companies",
+						"{{companyId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchVehicle",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"plate\": \"PPPPPPP Plate\",\r\n    \"model\": \"Updated Model\",\r\n    \"producer\": \"Updated Producer\",\r\n    \"type\": \"Updated Type\",\r\n    \"weight\": 2000,\r\n    \"maxWeight\": 3000,\r\n    \"capacity\": 5,\r\n    \"homologationMark\": \"Updated Homologation Mark\",\r\n    \"motorVolume\": 2000,\r\n    \"power\": 150,\r\n    \"fuel\": \"Updated Fuel\",\r\n    \"consumption\": 10.5,\r\n    \"thrustWeight\": 15,\r\n    \"standingSpace\": 2,\r\n    \"seatingSpace\": 5,\r\n    \"ownerAddressId\": \"{{addressId}}\",\r\n    \"userAddressId\": \"{{addressId}}\",\r\n    \"color\": \"Updated Color\",\r\n    \"shaft\": 2,\r\n    \"chasie\": \"Updated Chasie\",\r\n    \"motor\": \"Updated Motor\",\r\n    \"insurance\": \"Updated Insurance\",\r\n    \"registrationDate\": \"2023-01-01\",\r\n    \"ownerMn\": 1234567890123,\r\n    \"ownerLastName\": \"Updated Owner Last Name\",\r\n    \"userFirstName\": \"Updated User First Name\",\r\n    \"userLastName\": \"Updated User Last Name\",\r\n    \"userMn\": 9876543210987,\r\n    \"registrationCertificate\": \"2023-01-01\",\r\n    \"registerId\": 123,\r\n    \"meta\": {\r\n        \"additionalProp1\": \"string\",\r\n        \"additionalProp2\": \"string\",\r\n        \"additionalProp3\": \"string\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/vehicles/{{vehicleId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"vehicles",
+						"{{vehicleId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchUser",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"newuser@example.com\",\r\n    \"password\":\"newpassword\",\r\n    \"firstName\":\"New\",\r\n    \"lastName\":\"User\",\r\n    \"mn\":\"987654321\",\r\n    \"addressId\":\"{{addressId}}\",\r\n    \"isDriver\": true,\r\n    \"licenceNumber\": \"Updated Licence Number\",\r\n    \"licenceSerialNumber\": \"Updated Serial Number\",\r\n    \"licenceExpiry\": \"2023-03-03\",\r\n    \"licenceIssued\": \"2022-03-03\",\r\n    \"licenceAuthority\": \"Updated Authority\",\r\n    \"roles\":[\"manager\", \"dispatcher\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/{{userId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchDriverCategory",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n     \"category\": \"Updated Category\",\r\n    \"issued\": \"2023-03-01\",\r\n    \"expired\": \"2024-03-01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/driverCategories/{{driverCategoryId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"driverCategories",
+						"{{driverCategoryId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchWarrant",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"driverId\": \"{{userId}}\",\r\n    \"vehicleId\": \"{{vehicleId}}\",\r\n    \"companyId\": \"{{companyId}}\",\r\n    \"status\": \"done\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/warrants/{{warrantId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"warrants",
+						"{{warrantId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchRoute",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"startTime\":\"2022-03-01 15:04:05\",\r\n    \"endAddressId\":\"{{addressId}}\",\r\n    \"endTime\":\"2024-01-01 15:04:05\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/routes/{{routeId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"routes",
+						"{{routeId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchTransportCost",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"Updated type\",\r\n    \"code\": \"Updated code\",\r\n    \"content\": \"Updated content\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/transportCosts/{{transportCostsId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"transportCosts",
+						"{{transportCostsId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchShippingInvoice",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"routeId\": \"{{routeId}}\",\r\n    \"side\": \"end\",\r\n    \"status\": \"Updated status\",\r\n    \"route\":\"BG-VA\",\r\n    \"externalInvoiceId\": \"Updated externalInvoiceId\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/shippinginvoices/{{shippingInvoiceId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"shippinginvoices",
+						"{{shippingInvoiceId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchRepair",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"addressId\":\"{{addressId}}\",\r\n    \"workshop\":\"Updated workshop\",\r\n    \"repairType\":\"Updated repairType\",\r\n    \"end\":\"2024-01-02 15:04:05\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/repairs/{{repairId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"repairs",
+						"{{repairId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

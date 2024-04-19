@@ -1,0 +1,39 @@
+services:
+
+  typesense:
+    image: typesense/typesense:26.0
+    restart: on-failure
+    container_name: typesense
+    ports:
+      - "8108:8108"
+    volumes:
+      - typesense-data:/data
+    command: '--data-dir /data --api-key=xyz --enable-cors'
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 8025:8025
+      - 1025:1025
+    container_name: mailhog
+    user: root
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /tmp/
+
+    volumes:
+      - ./mailhog/mail:/tmp/
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass magicHubAdmin
+    volumes: 
+      - cache:/data
+
+volumes:
+  cache:  
+    driver: local

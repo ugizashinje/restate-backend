@@ -1,0 +1,2485 @@
+swagger: "2.0"
+info:
+  description: "API for managing companies"
+  version: "1.0"
+  title: "Company API"
+basePath: "/v1"
+schemes:
+  - "http"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+paths:
+  /auth/register:
+    post:
+      summary: "Register a new company and manager"
+      tags:
+        - auth
+      operationId: "registerCompany"
+      parameters:
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/RegisterCompanyRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            properties:
+              status:
+                description: 'Status of operation'
+                type: string
+                example: success
+
+  /auth/confirm/{code}:
+    get:
+      summary: "Confirm registration"
+      tags:
+        - auth
+      operationId: "confirmRegistration"
+      parameters:
+        - name: "code"
+          in: "path"
+          required: true
+          type: "string"
+          default: "3a87fa56-48dc-451a-8397-f40268e09905"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+              type: "array"
+              items:
+                $ref: "#/definitions/Confirmation"
+              
+
+  /auth/login:
+    post:
+      summary: "Login a user"
+      tags:
+        - auth
+      operationId: "loginUser"
+      parameters:
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/loginUserRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            properties:
+              accessToken:
+                type: string
+                example: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDcxMjYwMjIsInN1YiI6IjAxOGQ3ODg4LTAwYjAtN2Q3MS04MDEyLTY3ZTFkOTQyYzRmOCJ9.psh0sxWMNHj4MkjObL8IQiP812g_ingUXymvoMY3F9VnFi3v1Msc5hEQzkLPOKd6ij6utaxpZncKwWi3X07nDA"  
+              refreshToken:
+                type: string
+                example: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDk3MTYyMjIsInN1YiI6IjAxOGQ3ODg4LTAwYjAtN2Q3MS04MDEyLTY3ZTFkOTQyYzRmOCJ9.tP3aHspM_vrG_9zU8KDNxU_nVYk1rpkHsROjQybPyyz8mrKMtsGYknlKnMdhEJZoJ_lAhxHfSBM1Uum88z_1DQ"               
+
+  /auth/logout:
+      get:
+        summary: "Logout a user"
+        tags:
+          - auth
+        operationId: "logoutUser"
+        responses:
+          200:
+            description: "Successful operation"
+            schema:
+              properties:
+                success:
+                  type: string
+                  example: success
+
+  /auth/refresh:
+    post:
+      summary: "Refresh token"
+      tags:
+        - auth
+      operationId: "refreshToken"
+      parameters:
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/refreshRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            properties:
+              accessToken:
+                type: string
+                example: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDcxMjYwMjIsInN1YiI6IjAxOGQ3ODg4LTAwYjAtN2Q3MS04MDEyLTY3ZTFkOTQyYzRmOCJ9.psh0sxWMNHj4MkjObL8IQiP812g_ingUXymvoMY3F9VnFi3v1Msc5hEQzkLPOKd6ij6utaxpZncKwWi3X07nDA"  
+              refreshToken:
+                type: string
+                example: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDk3MTYyMjIsInN1YiI6IjAxOGQ3ODg4LTAwYjAtN2Q3MS04MDEyLTY3ZTFkOTQyYzRmOCJ9.tP3aHspM_vrG_9zU8KDNxU_nVYk1rpkHsROjQybPyyz8mrKMtsGYknlKnMdhEJZoJ_lAhxHfSBM1Uum88z_1DQ" 
+  /companies/:
+    get:
+      summary: "Search all companies"
+      tags:
+          - companies
+      operationId: "searchAllCompanies"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Company"
+
+    # post:
+    #   summary: "Create a new company"
+    #   tags:
+    #       - companies
+    #   operationId: "createCompany"
+    #   parameters:
+    #     - name: "body"
+    #       in: "body"
+    #       required: true
+    #       schema:
+    #         $ref: "#/definitions/CreateCompanyRequest"
+    #   responses:
+    #     200:
+    #       description: "Successful operation"
+    #       schema:
+    #         $ref: "#/definitions/Company"
+  /companies/{id}:
+    get:
+      summary: "Get a company by ID"
+      tags:
+          - companies
+      operationId: "getCompany"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cd8d8-4edf-7584-8042-4d9adefa2641"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Company"
+    patch:
+      summary: "Update a company by ID"
+      tags:
+          - companies
+      operationId: "patchCompany"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cd8d8-4edf-7584-8042-4d9adefa2641"
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/PatchCompanyRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Company"
+      requestBody:
+        content:
+          application/json:
+            example:
+              name: "Updated Company"
+              short: "UpCo"
+              pib: "987654321"
+              addressId: "018cfd18-f492-7ade-803a-b414a0a8afac"
+              mn: "123456789"
+              phone: "+987654321"
+              email: "updatedcompany@example.com"
+
+    delete:
+      summary: "Delete a company by ID"
+      tags:
+          - companies
+      operationId: "deleteCompany"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Company"
+  /addresses/:
+    get:
+      summary: "Search all addresses"
+      tags:
+          - addresses
+      operationId: "searchAllAddresses"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Address"
+
+    post:
+      summary: "Create a new address"
+      tags:
+          - addresses
+      operationId: "createAddress"
+      parameters:
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateAddressRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Address" 
+  /addresses/{id}:
+    get:
+      summary: "Get an address by ID"
+      tags:
+          - addresses
+      operationId: "getAddress"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cfd18-f492-7ade-803a-b414a0a8afac"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Address"
+    patch:
+      summary: "Update an address by ID"
+      tags:
+          - addresses
+      operationId: "patchAddress"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cfd18-f492-7ade-803a-b414a0a8afac"
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/PatchAddressRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Address"
+      requestBody:
+        content:
+          application/json:
+            example:
+              city: "Updated City"
+              street: "Updated Street"
+              streetNo: "456"
+              name: "Updated Address Name"
+
+    delete:
+      summary: "Delete an address by ID"
+      tags:
+          - addresses
+      operationId: "deleteAddress"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cf38c-820c-7b7b-8005-38df57df28da"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Address"
+  /users/:
+    get:
+      summary: "Search all users"
+      tags:
+          - users
+      operationId: "searchAllUsers"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+
+    post:
+      summary: "Create a new user"
+      tags:
+          - users
+      operationId: "createUser"
+      parameters:
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateUserRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/User"
+  /users/{id}:
+    get:
+      summary: "Get a user by ID"
+      tags:
+          - users
+      operationId: "getUser"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cd9aa-546d-793d-8014-728bde77fbed"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/User"
+    patch:
+      summary: "Update a user by ID"
+      tags:
+        - users
+      operationId: "patchUser"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cd9aa-546d-793d-8014-728bde77fbed"
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/PatchUserRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/User"
+      requestBody:
+        content:
+          application/json:
+            example:
+              email: "updateduser@example.com"
+              password: "updatedpassword"
+              firstName: "Updated"
+              lastName: "User"
+              mn: "123456789"
+              phone: "987654321"
+              birthplace: "birthplace"
+              companyId: "018cfd19-0d5b-7108-806f-78e1de9fbbcc"
+              addressId: "018cfd18-f492-7ade-803a-b414a0a8afac"
+              driverId: "018cfd18-f5e6-7fe3-804e-2e9d8152de91"
+              dispatcherId: "018cfda7-310b-7f3a-800e-4d9369bd7818"
+
+    delete:
+      summary: "Delete a user by ID"
+      tags:
+        - users
+      operationId: "deleteUser"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cf813-4820-7b76-8007-a5f08f9ce129"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/User"
+
+  /repairs:
+    get:
+      summary: "Search all repairs"
+      tags:
+        - repairs
+      operationId: "searchAllRepairs"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Repair"
+
+    post:
+      summary: "Create a new repair"
+      tags:
+        - repairs
+      operationId: "createRepair"
+      parameters:
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateRepairRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Repair"          
+  /repairs/{id}:
+    get:
+      summary: "Get a repair by ID"
+      tags:
+        - repairs
+      operationId: "getRepair"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Repair"
+    patch:
+      summary: "Update a repair by ID"
+      tags:
+        - repairs
+
+      operationId: "patchRepair"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/PatchRepairRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Repair"
+      requestBody:
+        content:
+          application/json:
+            example:
+              addressId: "018cfd18-f492-7ade-803a-b414a0a8afac"
+              warrantId: "018cfd18-f674-7d5e-8051-a4dea1acbe79"
+              expectedTime: "2023-12-31T12:00:00Z"
+              order: 1
+              
+    delete:
+      summary: "Delete a repair by ID"
+      tags:
+        - repairs
+      operationId: "deleteRepair"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Repair"
+  /shippinginvoices:
+    get:
+      summary: "Search all shipping invoices"
+      tags:
+        - shippinginvoices
+      operationId: "searchAllShippingInvoices"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ShippingInvoice"
+
+    post:
+      summary: "Create a new shipping invoice"
+      tags:
+        - shippinginvoices
+      operationId: "createShippingInvoice"
+      parameters:
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateShippingInvoiceRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/ShippingInvoice"          
+  /shippinginvoices/{id}:
+    get:
+      summary: "Get a shipping invoice by ID"
+      tags:
+        - shippinginvoices
+      operationId: "getShippingInvoice"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cfd18-f71f-71ea-805c-50bbb84ab800"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/ShippingInvoice"
+    patch:
+      summary: "Update a shipping invoice by ID"
+      tags:
+        - shippinginvoices
+      operationId: "patchShippingInvoice"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cfd18-f71f-71ea-805c-50bbb84ab800"
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/PatchShippingInvoiceRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/ShippingInvoice"
+      requestBody:
+        content:
+          application/json:
+            example:
+              department: "Updated Department"
+
+    delete:
+      summary: "Delete a shipping invoice by ID"
+      tags:
+        - shippinginvoices
+      operationId: "deleteShippingInvoice"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cfd18-f71f-71ea-805c-50bbb84ab800"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/ShippingInvoice"
+
+  /transportCosts:
+    get:
+      summary: "Search all transportCosts"
+      tags:
+        - transport costs
+      operationId: "searchAllTransportCosts"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/TransportCosts"
+
+    post:
+      summary: "Create a new transportCosts"
+      tags:
+        - transport costs
+      operationId: "createTransportCosts"
+      parameters:
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateTransportCostsRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/TransportCosts"          
+  /transportCosts/{id}:
+    get:
+      summary: "Get a repair by ID"
+      tags:
+        - transport costs
+
+      operationId: "getTransportCosts"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cfd18-f6f0-7113-8059-4afc7fa2691d"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/TransportCosts"
+    patch:
+      summary: "Update a transportCosts by ID"
+      tags:
+        - transport costs
+      operationId: "patchTransportCosts"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cfd18-f6f0-7113-8059-4afc7fa2691d"
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/PatchTransportCostsRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/TransportCosts"
+      requestBody:
+        content:
+          application/json:
+            example:
+              addressId: "018cfd18-f492-7ade-803a-b414a0a8afac"
+              warrantId: "018cfd18-f674-7d5e-8051-a4dea1acbe79"
+              expectedTime: "2023-12-31 12:00:00"
+              order: 1
+              
+    delete:
+      summary: "Delete a transportCosts by ID"
+      tags:
+        - transport costs
+      operationId: "deleteTransportCosts"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cfd18-f6f0-7113-8059-4afc7fa2691d"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/TransportCosts"          
+  /driverCategories:
+    get:
+      summary: "Search all driver categories"
+      tags:
+        - driver categories
+      operationId: "searchAllDriverCategories"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/DriverCategory"
+
+    post:
+      summary: "Create a new driver category"
+      tags:
+        - driver categories
+
+      operationId: "createDriverCategory"
+      parameters:
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateDriverCategoryRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/DriverCategory"          
+  /driverCategories/{id}:
+    get:
+      summary: "Get a driver category by ID"
+      tags:
+        - driver categories
+
+      operationId: "getDriverCategory"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cf89f-28ce-7215-8008-b7886d2dfa05"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/DriverCategory"
+    patch:
+      summary: "Update a driver category by ID"
+      tags:
+        - driver categories
+
+      operationId: "patchDriverCategory"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cf89f-28ce-7215-8008-b7886d2dfa05"
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/PatchDriverCategoryRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/DriverCategory"
+      requestBody:
+        content:
+          application/json:
+            example:
+              category: "Updated Category"
+              issued: "2022-01-01"
+              expired: "2023-01-01"
+
+    delete:
+      summary: "Delete a driver category by ID"
+      tags:
+        - driver categories
+
+      operationId: "deleteDriverCategory"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: "018cf8f1-7279-7cb8-800d-75c9227a7544"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/DriverCategory"
+  
+  /vehicles/:
+    get:
+      summary: "Search all vehicles"
+      tags:
+        - vehicles
+
+      operationId: "searchAllVehicles"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Vehicle"
+
+    post:
+      summary: "Create a new vehicle"
+      tags:
+        - vehicles
+      operationId: "createVehicle"
+      parameters:
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateVehicleRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Vehicle"          
+  /vehicles/{id}:
+    get:
+      summary: "Get a vehicle by ID"
+      tags:
+        - vehicles
+      operationId: "getVehicle"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: 018cd8d8-4f2c-7b70-804e-9fa4d8f22ce8
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Vehicle"
+    patch:
+      summary: "Update a vehicle by ID"
+      tags:
+        - vehicles
+      operationId: "patchVehicle"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: 018cd8d8-4f2c-7b70-804e-9fa4d8f22ce8
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/PatchVehicleRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Vehicle"
+      requestBody:
+        content:
+          application/json:
+            example:
+              plate: "Updated Plate"
+              model: "Updated Model"
+              producer: "Updated Producer"
+              type: "Updated Type"
+              weight: 2000
+              maxWeight: 3000
+              capacity: 5
+              homologationMark: "Updated Homologation Mark"
+              motorVolume: 2000
+              power: 150
+              fuel: "Updated Fuel"
+              consumption: 10.5
+              thrustWeight: 15
+              standingSpace: 2
+              seatingSpace: 5
+              color: "Updated Color"
+              shaft: 2
+              chasie: "Updated Chasie"
+              motor: "Updated Motor"
+              insurance: "Updated Insurance"
+              registrationDate: "2023-01-01"
+              registrationExpiry: "2024-01-01"
+              firstRegistrationDate: "2022-01-01"
+              ownerMn: 1234567890123
+              ownerFirstName: "John"
+              ownerLastName: "Doe"
+              ownerAddressId: "018cfd18-f492-7ade-803a-b414a0a8afac"
+              userFirstName: "Updated User First Name"
+              userLastName: "Updated User Last Name"
+              userAddressId: "018cfd18-f492-7ade-803a-b414a0a8afac"
+              userMn: 9876543210987
+              registrationCertificateDate: "2023-01-01"
+              registerId: 123
+              meta: { "key": "value" }
+
+    delete:
+      summary: "Delete a vehicle by ID"
+      tags:
+        - vehicles
+      operationId: "deleteVehicle"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+          default: 018cf7e5-c821-723a-8004-b8cf5b778047
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Vehicle"
+  /warrants/:
+    get:
+      summary: Get all travel warrants
+      tags:
+        - warrants
+      operationId: searchAllWarrant
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Warrant"
+
+    post:
+      summary: Create a travel warrant
+      tags:
+        - warrants
+      operationId: createWarrant
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Warrant object
+          required: true
+          schema:
+            $ref: "#/definitions/CreateWarrantRequest"
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Warrant"
+
+  /warrants/{id}:
+    get:
+      summary: Get a travel warrant by ID
+      tags:
+        - warrants
+      operationId: getWarrant
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of the warrant to get
+          required: true
+          type: string
+          default: "018cd9b6-1486-723b-802e-352321cf6620"
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Warrant"
+
+    patch:
+      summary: Update a travel warrant by ID
+      tags:
+        - warrants
+      operationId: patchWarrant
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of the warrant to update
+          required: true
+          type: string
+          default: "018cd9b6-1486-723b-802e-352321cf6620"
+        - in: body
+          name: body
+          description: PatchWarrant object
+          required: true
+          schema:
+            $ref: "#/definitions/PatchWarrantRequest"
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Warrant"
+
+    delete:
+      summary: Delete a travel warrant by ID
+      tags:
+        - warrants
+      operationId: deleteWarrant
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of the warrant to delete
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Warrant"
+
+  /routes/:
+    get:
+      summary: Get all routes
+      tags:
+        - routes
+      operationId: searchAllRoutes
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Route"
+
+    post:
+      summary: Create a route
+      tags:
+        - routes
+      operationId: createRoute
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Route object
+          required: true
+          schema:
+            $ref: "#/definitions/CreateRouteRequest"
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Route"
+
+  /routes/{id}:
+    get:
+      summary: Get a route by ID
+      tags:
+        - routes
+      operationId: getRoute
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of the warrant to get
+          required: true
+          type: string
+          default: "018cfd25-a957-76ec-8094-4807812a277b"
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Route"
+
+    patch:
+      summary: Update a route by ID
+      tags:
+        - routes
+      operationId: patchRoute
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of the route to update
+          required: true
+          type: string
+          default: "018cfd25-a957-76ec-8094-4807812a277b"
+        - in: body
+          name: body
+          description: PatchRoute object
+          required: true
+          schema:
+            $ref: "#/definitions/PatchRouteRequest"
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Route"
+
+    delete:
+      summary: Delete a route by ID
+      tags:
+        - routes
+      operationId: deleteRoute
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of the route to delete
+          required: true
+          type: string
+          default: "018cfd25-a957-76ec-8094-4807812a277b"
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Route"
+
+  /warrantevents/:
+    get:
+      summary: Get all warrant events
+      tags:
+        - warrant events
+      operationId: searchAllWarrantEvent
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/WarrantEvent"
+
+definitions:
+  Company:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "12345"
+      name:
+        type: "string"
+        example: "Example Company"
+      short:
+        type: "string"
+        example: "ExCo"
+      pib:
+        type: "string"
+        example: "123456789"
+      addressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"
+      address:
+        $ref: "#/definitions/Address"
+      mn:
+        type: "string"
+        example: "987654321"
+      phone:
+        type: "string"
+        example: "+123456789"
+      email:
+        type: "string"
+        example: "info@example.com"
+      employees:
+        type: array
+        items:
+          $ref: "#/definitions/UserCompany"
+      meta:
+        type: object
+        additionalProperties: true
+        example: { "key": "value" }
+
+  PatchCompanyRequest:
+    type: "object"
+    properties:
+      short:
+        type: "string"
+        example: "UpCo"
+      addressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"
+      phone:
+        type: "string"
+        example: "+987654321"
+      email:
+        type: "string"
+        example: "updatedcompany@example.com"
+
+  # CreateCompanyRequest:
+  #   type: "object"
+  #   properties:
+  #     name:
+  #       type: "string"
+  #       example: "New Company"
+  #     short:
+  #       type: "string"
+  #       example: "NewCo"
+  #     pib:
+  #       type: "string"
+  #       example: "987654321"
+  #     addressId:
+  #       type: "string"
+  #       example: "018cfd18-f492-7ade-803a-b414a0a8afac"
+  #     mn:
+  #       type: "string"
+  #       example: "123456789"
+  #     phone:
+  #       type: "string"
+  #       example: "+987654321"
+  #     email:
+  #       type: "string"
+  #       example: "newcompany@example.com"
+
+  RegisterCompanyRequest:
+    type: "object"
+    properties:
+      companyAddressCity:
+        type: "string"
+        example: "Beograd"
+      companyAddressStreet:
+        type: "string"
+        example: "Gagarina"
+      companyAddressStreetNo:
+        type: "string"
+        example: "204a"
+      companyAddressName:
+        type: "string"
+        example: "Beogradjanka"
+      companyName:
+        type: "string"
+        example: "Naftna Industrija Srbije"
+      companyShort:
+        type: "string"
+        example: "NIS"
+      pib:
+        type: "string"
+        example: "12231222123"  
+      companyAddressID:
+        type: "string"
+        example: "wdjkwskjsa-2dsadkdsad-dsadsdas"
+      companyMn:
+        type: "string"
+        example: "231323131"
+      companyPhone:
+        type: "string"
+        example: "+3812312131"
+      companyEmail:
+        type: "string"
+        example: "offilce@oblak.com"
+      companyMeta:
+        type: "object"
+        example:
+          status: submitted
+          addressId: asdsadsa-sadasdsad-adsdsad
+      userAddressCity:
+        type: "string"
+        example: "Zemun"
+      userAddressStreet:
+        type: "string"
+        example: "Dusanova"
+      userAddressStreetNo:
+        type: "string"
+        example: "123a"
+      userAddressName:
+        type: "string"
+        example: "zemunska posta"
+      userAddressID:
+        type: "string"
+        example: "wdjkwskjsa-2dsadkdsad-dsadsdas"
+      userEmail:
+        type: "string"
+        example: "user@random.com"
+      userPassword:
+        type: "string"
+        example: "asdfasdf"
+      userFirstName:
+        type: "string"
+        example: "Milos"
+      userLastName:
+        type: "string"
+        example: "Bokovic"
+      userMn:
+        type: string
+        example: "1231323"
+      userBirthplace:
+        type: string
+        example: "Beograd"
+      isDriver:
+        type: bool
+        example: False
+      licenceNumber:
+        type: string
+        example: 1223213123a
+      licenceSerialNumber: 
+        type: string
+        example: 332d2dddsds
+      licenceExpiry:
+        type: date
+        example: 2024-01-02
+      licenceIssued:
+        type: date
+        example: 2023-01-02
+      licenceAuthority:
+        type: string
+        example: PU Novi Beograds
+
+  Confirmation:
+    type: object
+    properties:
+      id: 
+        type: "string"
+        example: "018d7e8d-c221-7107-801e-0a29287207f1"
+      status:
+        type: "string"
+        example: "confirmed"
+      code:
+        type: "string"    
+        example: "3a87fa56-48dc-451a-8397-f40268e09905"  
+
+  loginUserRequest:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "user@random.com"
+      password:
+        type: "string"
+        example: "newpassword"
+
+  refreshRequest:
+    type: "object"
+    properties:
+      refreshToken:
+        type: "string"
+        example: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDk4MDc4MDAsInN1YiI6IjAxOGQ3ZGZiLTViMmEtNzI2Ni04MDMwLTE2ZmM4MjY5OWE2ZiJ9.xLuYMTGmCgjnMhLQMjArI_12sCBMxtEL5k8lsHCxV1_Jd6JAwrevzyOwqmwKrCP7GPOXDHf5NmP1Pe4ViuY_Cw"
+
+  Address:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        required: true
+        example: "98765"
+      city:
+        type: "string"
+        required: true
+        example: "City"
+      street:
+        type: "string"
+        example: "Street"
+      streetNo:
+        type: "string"
+        example: "123"
+      name:
+        type: "string"
+        example: "Company Building"
+  PatchAddressRequest:
+    type: "object"
+    properties:
+      city:
+        type: "string"
+        example: "Updated City"
+      street:
+        type: "string"
+        example: "Updated Street"
+      streetNo:
+        type: "string"
+        example: "456"
+      name:
+        type: "string"
+        example: "Updated Address Name"
+
+  CreateAddressRequest:
+    type: "object"
+    properties:
+      city:
+        type: "string"
+        required: true
+        example: "New City"
+      street:
+        type: "string"
+        required: true
+        example: "New Street"
+      streetNo:
+        type: "string"
+        example: "789"
+      name:
+        type: "string"
+        example: "New Address Name"
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "12345"
+      email:
+        type: "string"
+        example: "user@example.com"
+      password:
+        type: "string"
+        example: "password"
+      firstName:
+        type: "string"
+        example: "John"
+      lastName:
+        type: "string"
+        example: "Doe"
+      mn:
+        type: "string"
+        example: "987654321"
+      birthplace:
+        type: "string"
+        example: "birthplace"
+      companies:
+        $ref: "#/definitions/UserCompany"
+      phone:
+        type: "string"
+        example: "987654321"  
+      addressId:
+        type: "string"
+        example: "54321"
+      address:
+        $ref: "#/definitions/Address"
+      isDriver:
+        type: "bool"
+        example: "true"  
+      categories:
+        $ref: "#/definitions/DriverCategory"
+      licenceNumber:
+        type: "string"
+        example: "12345"
+      licenceSerialNumber:
+        type: "string"
+        example: "54321"
+      licenceExpiry:
+        type: "string"
+        format: "date"
+        example: "2023-12-31"
+      licenceIssued:
+        type: "string"
+        format: "date"
+        example: "2020-01-01"
+      licenceAuthority:
+        type: "string"
+        example: "Authority"
+      roles:
+        type: "array"
+        items:
+          type: "string"
+        example: [ "manager", "driver"]  
+
+  PatchUserRequest:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "updateduser@example.com"
+      password:
+        type: "string"
+        example: "updatedpassword"
+      firstName:
+        type: "string"
+        example: "Updated"
+      lastName:
+        type: "string"
+        example: "User"
+      mn:
+        type: "string"
+        example: "123456789"
+      phone:
+        type: "string"
+        example: "987654321"  
+      addressId:
+        type: "string"
+        example: "018ce314-6ead-7847-8004-c8e7c8429543"
+      isDriver:
+        type: "bool"
+        example: "false"  
+      licenceNumber:
+        type: "string"
+        example: "123451111"
+      licenceSerialNumber:
+        type: "string"
+        example: "543215555"
+      licenceExpiry:
+        type: "string"
+        format: "date"
+        example: "2024-12-31"
+      licenceIssued:
+        type: "string"
+        format: "date"
+        example: "2021-01-01"
+      licenceAuthority:
+        type: "string"
+        example: "Updated Authority"
+      roles:
+        type: array
+        items: 
+          type: string
+        example: ["manager", "driver"]
+      addToCompany:
+        type: string
+        example: 018c6e16-db0d-7f06-800f-fc84904d3f9a
+      removeFromCompany:
+        type: string
+        example: 018c6e16-db0d-7f06-800f-fc84904d3f9a
+      status: 
+        type: string 
+        example: vacation
+  CreateUserRequest:
+    type: "object"
+    required:
+      - email
+      - password
+      - firstName
+      - lastName
+      - mn
+      - companyId
+      - addressId
+
+    properties:
+      email:
+        type: "string"
+        example: "newuser@example.com"
+      password:
+        type: "string"
+        example: "newpassword"
+      firstName:
+        type: "string"
+        example: "New"
+      lastName:
+        type: "string"
+        example: "User"
+      mn:
+        type: "string"
+        example: "987654321"
+      birthplace:
+        type: "string"
+        example: "birthplace"
+      companyId:
+        type: "string"
+        example: "018cfd19-0d5b-7108-806f-78e1de9fbbcc"
+      phone:
+        type: "string"
+        example: "987654321"  
+      addressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"
+      isDriver:
+        type: "bool"
+        example: "true"  
+      licenceNumber:
+        type: "string"
+        example: "12345"
+      licenceSerialNumber:
+        type: "string"
+        example: "54321"
+      licenceExpiry:
+        type: "string"
+        format: "date"
+        example: "2023-12-31"
+      licenceIssued:
+        type: "string"
+        format: "date"
+        example: "2020-01-01"
+      licenceAuthority:
+        type: "string"
+        example: "Authority"
+      roles:
+        type: "array"
+        items:
+          type: "string"
+        example: [ "manager", "driver"]
+
+  DriverCategory:
+    type: "object"
+    properties:
+      userId:
+        type: "string"
+        example: sdfsdfdsdfsdf-sdfsdfsdfdsf-sdfdfs-dfs
+      category:
+        type: string
+        example: A
+      issued:
+        type: string
+        format: date
+        example: "2023-01-01"
+      expired:
+        type: string
+        format: date
+        example: "2024-01-01"
+
+  ShippingInvoice:
+    type: "object"
+    properties:
+      routeId:
+        type: "string"
+        example: "018cfd25-a957-76ec-8094-4807812a277b"
+      side:
+        type: "string" 
+        example: "start"  
+      status:
+        type: "string" 
+        example: "status"
+      externalInvoiceId:
+        type: "string" 
+        example: "externalInvoiceId"
+
+  PatchShippingInvoiceRequest:
+    type: "object"
+    properties:
+      routeId:
+        type: "string"
+        example: "018cfd25-a957-76ec-8094-4807812a277b"
+      side:
+        type: "string" 
+        example: "end"    
+      status:
+        type: "string" 
+        example: "Updated status"  
+      externalInvoiceId:
+        type: "string" 
+        example: "Updated externalInvoiceId"
+
+  CreateShippingInvoiceRequest:
+    type: "object"
+    properties:
+      routeId:
+        type: "string"
+        example: "018cfd25-a957-76ec-8094-4807812a277b"
+      side:
+        type: "string" 
+        example: "start"    
+      status:
+        type: "string" 
+        example: "status"  
+      externalInvoiceId:
+        type: "string" 
+        example: "externalInvoiceId"
+                 
+  Repair:
+    type: "object"
+    properties:
+      warrantId:
+        type: "warrantId"
+        required: true
+        example: "018cfd18-f674-7d5e-8051-a4dea1acbe79"
+      warrant:
+        $ref: "#/definitions/Warrant"  
+      workshop:
+        type: "string"
+        required: true
+        example: "workshop"
+      repairType:
+        type: "string"
+        required: true
+        example: "repairType"
+      location:
+        type: string
+        example: 20,44
+      addressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"
+      address:
+        $ref: "#/definitions/Address"
+      start:
+        type: "string"
+        required: true
+        format: "date-time"
+        example: "2023-12-30 12:00:00"
+      end:
+        type: "string"
+        format: "date-time"
+        example: "2023-12-31 12:00:00"      
+      fileName:
+        type: string
+        example: fiscal.bill.pdf
+      url:
+        type: string
+        example: http://s3/temporartyUrl
+
+  PatchRepairRequest:
+    type: "object"
+    properties:
+      addressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"
+      workshop:
+        type: "string"
+        example: "Updated workshop"
+      repairType:
+        type: "string"
+        example: "Updated repairType"  
+      start:
+        type: "string"
+        format: "date-time"
+        example: "2023-12-30 12:00:00"
+      end:
+        type: "string"
+        format: "date-time"
+        example: "2023-12-31 12:00:00"
+      location:
+        type: "string"
+        example: "20,44"  
+      fileName:
+        type: "string"
+        example: "repair.revers.pdf"  
+
+  CreateRepairRequest:
+    type: "object"
+    properties:
+      addressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"
+      warrantId:
+        type: "string"
+        example: "018cfd18-f674-7d5e-8051-a4dea1acbe79"
+      workshop:
+        type: "string"
+        example: "workshop"
+      repairType:
+        type: "string"
+        example: "repairType"
+      start:
+        type: "string"
+        format: "date-time"
+        example: "2023-12-30 12:00:00"
+      end:
+        type: "string"
+        format: "date-time"
+        example: "2023-12-31 12:00:00"
+      fileName:
+        type: string
+        example: fiscal.bill.pdf
+ 
+  TransportCosts:
+    type: "object"
+    properties:
+      warrantId:
+        type: "warrantId"
+        example: "018cfd18-f674-7d5e-8051-a4dea1acbe79"
+      type:
+        type: "string" 
+        example: "type"
+      amount:
+        type: number
+        example: 23.2
+      location:
+        type: "string" 
+        required: true
+        example: 20,44
+      code:
+        type: "string" 
+        example: "code"
+      fileName:
+        type: string
+        example: fiscal.bill.pdf
+      url: 
+        type: string
+        example: http://s3/temporartyUrl
+
+  PatchTransportCostsRequest:
+    type: "object"
+    properties:
+      type:
+        type: "string" 
+        example: "type"
+      code:
+        type: "string" 
+        example: "Updated code"
+      location:
+        type: string
+        example: 20,44
+      fileName:
+        type: string
+        example: fiscal.bill.pdf
+
+  CreateTransportCostsRequest:
+    type: "object"
+    properties:
+      warrantId:
+        type: "warrantId"
+        example: "018cfd18-f674-7d5e-8051-a4dea1acbe79"
+      type:
+        type: "string" 
+        example: "type"
+      code:
+        type: "string" 
+        example: "code"
+      location:
+        type: "string" 
+        example: 20,44
+      amount:
+        type: number 
+        example: 232.2
+      fileName:
+        type: string"
+        example: fiscal.bill.pdf
+  UserCompany:
+    type: object
+    properties:
+      isDeleted:
+        type: bool
+        example: false
+      isActive:
+        type: bool
+      roles:
+        type: "array"
+        items:
+          type: "string"
+        example: [ "manager", "driver"] 
+      companyId:
+        type: string
+        example:  safsdfsadfasd-fadsfsadffds-sdafasd
+
+
+  PatchDriverCategoryRequest:
+    type: "object"
+    properties:
+      category:
+        type: "string"
+        example: "Updated Category"
+      issued:
+        type: "string"
+        format: "date"
+        example: "2022-01-01"
+      expired:
+        type: "string"
+        format: "date"
+        example: "2023-01-01"
+
+  CreateDriverCategoryRequest:
+    type: "object"
+    properties:
+      userId:
+        type: "string"
+        example: "018cfd18-f5e6-7fe3-804e-2e9d8152de91"
+      category:
+        type: "string"
+        example: "New Category"
+      issued:
+        type: "string"
+        format: "date"
+        example: "2022-01-01"
+      expired:
+        type: "string"
+        format: "date"
+        example: "2023-01-01"
+
+  Vehicle:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "1"
+      plate:
+        type: string
+        example: "ABC123"
+      isTraler:
+        type: bool
+        example: true
+      model:
+        type: string
+        example: "Sedan"
+      producer:
+        type: string
+        example: "Toyota"
+      type:
+        type: string
+        example: "Car"
+      weight:
+        type: integer
+        example: 1500
+      maxWeight:
+        type: integer
+        example: 2000
+      capacity:
+        type: integer
+        example: 5
+      homologationMark:
+        type: string
+        example: "EU123"
+      motorVolume:
+        type: integer
+        example: 2000
+      power:
+        type: integer
+        example: 150
+      fuel:
+        type: string
+        example: "Gasoline"
+      consumption:
+        type: number
+        example: 8.5
+      companyId:
+        type: string
+        example: asdfsadfdf-asdfsadfsadf-adsfdsfsad
+      company:
+        $ref: "#/definitions/Company"
+      thrustWeight:
+        type: integer
+        example: 20
+      standingSpace:
+        type: integer
+        example: 2
+      seatingSpace:
+        type: integer
+        example: 3
+      color:
+        type: string
+        example: "Blue"
+      shaft:
+        type: integer
+        example: 2
+      chasie:
+        type: string
+        example: "Chasie123"
+      motor:
+        type: string
+        example: "MotorXYZ"
+      insurance:
+        type: string
+        example: "XYZ123"
+      registrationDate:
+        type: string
+        format: date
+        example: "2023-01-01"
+      firstRegistrationDate:
+        type: string
+        format: date-time
+        example: "2022-01-01"
+      ownerMn:
+        type: integer
+        example: 123456
+      ownerFirstName:
+        type: string
+        example: John
+      ownerLastName:
+        type: string
+        example: "Doe"
+      ownerAddressID:
+        type: string
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"
+      ownerAddress:
+        $ref: "#/definitions/Address"
+      userFirstName:
+        type: string
+        example: "John"
+      userLastName:
+        type: string
+        example: "Doe"
+      userAddressID:
+        type: string
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"
+      userAddress:
+        $ref: "#/definitions/Address"
+      userMn:
+        type: integer
+        example: 789012
+      registrationCertificateDate:
+        type: string
+        format: date-time
+        example: "2023-01-01"
+      registrationExpiry:
+        type: string
+        format: date-time
+        example: "2023-01-01"
+      registerId:
+        type: integer
+        example: 456789
+      status:
+        type: string
+        example: active
+      meta:
+        type: object
+        example: { "key": "value" }
+  PatchVehicleRequest:
+    type: "object"
+    properties:
+      plate:
+        type: "string"
+        example: "Updated Plate"
+      model:
+        type: "string"
+        example: "Updated Model"
+      producer:
+        type: "string"
+        example: "Updated Producer"
+      type:
+        type: "string"
+        example: "Updated Type"
+      weight:
+        type: "integer"
+        example: 2000
+      maxWeight:
+        type: "integer"
+        example: 3000
+      capacity:
+        type: "integer"
+        example: 5
+      homologationMark:
+        type: "string"
+        example: "Updated Homologation Mark"
+      motorVolume:
+        type: "integer"
+        example: 2000
+      power:
+        type: "integer"
+        example: 150
+      fuel:
+        type: "string"
+        example: "Updated Fuel"
+      consumption:
+        type: "number"
+        example: 10.5
+      thrustWeight:
+        type: "integer"
+        example: 15
+      standingSpace:
+        type: "integer"
+        example: 2
+      seatingSpace:
+        type: "integer"
+        example: 5
+      color:
+        type: "string"
+        example: "Updated Color"
+      shaft:
+        type: "integer"
+        example: 2
+      chasie:
+        type: "string"
+        example: "Updated Chasie"
+      motor:
+        type: "string"
+        example: "Updated Motor"
+      insurance:
+        type: "string"
+        example: "Updated Insurance"
+      registrationDate:
+        type: "string"
+        format: "date"
+        example: "2023-01-01"
+      firstRegistrationDate:
+        type: "string"
+        format: "date"
+        example: "2022-01-01"
+      ownerMn:
+        type: "integer"
+        example: 1234567890123
+      ownerFirstName:
+        type: "string"
+        example: "John"
+      ownerLastName:
+        type: "string"
+        example: "Doe"
+      ownerAddressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"
+      userFirstName:
+        type: "string"
+        example: "Updated User First Name"
+      userLastName:
+        type: "string"
+        example: "Updated User Last Name"
+      userAddressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"
+      userMn:
+        type: "integer"
+        example: 9876543210987
+      registrationCertificateDate:
+        type: "string"
+        format: "date"
+        example: "2023-01-01"
+      registrationExpiry:
+        type: "string"
+        format: "date"
+        example: "2023-01-01"
+      registerId:
+        type: "integer"
+        example: 123 
+      meta:
+        type: "object"
+        additionalProperties:
+          type: "string"
+
+  CreateVehicleRequest:
+    type: "object"
+    properties:
+      plate:
+        type: "string"
+        example: "New Plate"
+      model:
+        type: "string"
+        example: "New Model"
+      producer:
+        type: "string"
+        example: "New Producer"
+      type:
+        type: "string"
+        example: "New Type"
+      weight:
+        type: "integer"
+        example: 2000
+      maxWeight:
+        type: "integer"
+        example: 3000
+      capacity:
+        type: "integer"
+        example: 5
+      homologationMark:
+        type: "string"
+        example: "New Homologation Mark"
+      motorVolume:
+        type: "integer"
+        example: 2000
+      power:
+        type: "integer"
+        example: 150
+      fuel:
+        type: "string"
+        example: "New Fuel"
+      consumption:
+        type: "number"
+        example: 10.5
+      thrustWeight:
+        type: "integer"
+        example: 15
+      standingSpace:
+        type: "integer"
+        example: 2
+      seatingSpace:
+        type: "integer"
+        example: 5
+      color:
+        type: "string"
+        example: "New Color"
+      shaft:
+        type: "integer"
+        example: 2
+      chasie:
+        type: "string"
+        example: "New Chasie"
+      motor:
+        type: "string"
+        example: "New Motor"
+      insurance:
+        type: "string"
+        example: "New Insurance"
+      registrationDate:
+        type: "string"
+        format: "date"
+        example: "2023-01-01"
+      registrationExpiry:
+        type: "string"
+        format: "date"
+        example: "2024-01-01"  
+      firstRegistrationDate:
+        type: "string"
+        format: "date"
+        example: "2022-01-01"
+      ownerMn:
+        type: "integer"
+        example: 1234567890123
+      ownerLastName:
+        type: "string"
+        example: "New Owner Last Name"
+      ownerAddressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"
+      userFirstName:
+        type: "string"
+        example: "New User First Name"
+      userLastName:
+        type: "string"
+        example: "New User Last Name"
+      userAddressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"
+      userMn:
+        type: "integer"
+        example: 9876543210987
+      registrationCertificateDate:
+        type: "string"
+        format: "date"
+        example: "2023-01-01"
+      registerId:
+        type: "integer"
+        example: 123
+      meta:
+        type: "object"
+        additionalProperties:
+          type: "string"
+
+  WarrantStatus:
+    type: string
+    enum:
+      - preparation
+      - assigned
+      - transit
+      - transport
+      - interrupted
+      - completed
+
+  Warrant:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "1"
+      issueDate:
+        type: string
+        format: date-time
+        example: "2023-12-31 12:00:00"
+      expectedStart:
+        type: string
+        format: date-time
+        example: "2023-12-30 12:00:00"
+      closingDate:
+        type: string
+        format: date-time
+        example: "2023-12-31 12:00:00"
+      driverId:
+        type: string
+        example: "018cfd18-f5e6-7fe3-804e-2e9d8152de91"
+      driver:
+        $ref: "#/definitions/User"
+      passengers:
+        type: array
+        items: 
+          type: string
+        example: ["Vasily Zaitzev", "Luke Skywalker"]
+      vehicleId:
+        type: string
+        example: "018cfd19-0da3-727a-806c-9293bb95c4cf"
+      vehicle:
+        $ref: "#/definitions/Vehicle"
+      trailerId:
+        type: string
+        example: "018cfd19-0da3-727a-806c-9293bb95c4cf"
+      trailer:
+        $ref: "#/definitions/Vehicle"
+      companyId:
+        type: string
+        example: "018cfd19-0d5b-7108-806f-78e1de9fbbcc"
+      company:
+        $ref: "#/definitions/Company"
+      dispatcherId:
+        type: string
+        example: "018cfda7-310b-7f3a-800e-4d9369bd7818"
+      dispatcher:
+        $ref: "#/definitions/User"
+      status:
+        $ref: "#/definitions/WarrantStatus"
+      name: 
+        type: string
+        example: redovna emezeta
+      note:
+        type: string
+        example: vozac je imao zdravtvenih problema zadnje vreme
+
+  CreateWarrantRequest:
+    type: object
+    properties:
+      expectedStart:
+        type: string
+        format: date-time
+        example: "2023-01-01 15:04:05"
+      driverId:
+        type: string
+        example: "018cfd18-f5e6-7fe3-804e-2e9d8152de91"
+      vehicleId:
+        type: string
+        example: "018cfd19-0da3-727a-806c-9293bb95c4cf"
+      companyId:
+        type: string
+        example: "018cfd19-0d5b-7108-806f-78e1de9fbbcc"
+      dispatcherId:
+        type: string
+        example: "018cfda7-310b-7f3a-800e-4d9369bd7818"
+      technicalCorrectnes:
+        type: string
+        example: ready
+      passangers: 
+        type: array
+        items:
+          type: string
+        example: 
+          example: [ "Peter Zaitzev", "Pit Murich"]  
+      status:
+        type: string
+        example: "assigned"  
+      name:
+        type: string  
+        example: redovna emezata
+      note: 
+        type: string
+        example: Proveri da li se vozilo moze prikljuciti na ulazana vrata magacina
+  PatchWarrantRequest:
+    type: object
+    properties:
+      expectedStart:
+        type: string
+        format: date-time
+        example: "2023-01-01 15:04:05"
+      driverId:
+        type: string
+        example: "018cfd18-f5e6-7fe3-804e-2e9d8152de91"
+      vehicleId:
+        type: string
+        example: "018cfd19-0da3-727a-806c-9293bb95c4cf"
+      companyId:
+        type: string
+        example: "018cfd19-0d5b-7108-806f-78e1de9fbbcc"
+      dispatcherId:
+        type: string
+        example: "018cfda7-310b-7f3a-800e-4d9369bd7818"
+      technicalCorrectnes:
+        type: string
+        example: ready
+      name:
+        type: string  
+        example: redovna emezata
+      note: 
+        type: string
+        example: Proveri da li se vozilo moze prikljuciti na ulazana vrata magacina
+      addPassenger:
+        type: string  
+        example: Pit Murich
+      removePassenger: 
+        type: string
+        example: Don Jonson
+
+  Route:
+    type: "object"
+    properties:
+      warrantId:
+        type: "string"
+        example: "018cfd18-f674-7d5e-8051-a4dea1acbe79"
+      startMileage:
+        type: number
+        example: 3242342
+      startAddressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"
+      startAddress:
+        $ref: "#/definitions/Address"
+      startTime:
+        type: "string" 
+        example: "2022-01-01 15:04:05"
+      endMileage:
+        type: number
+        example: 3242342
+      endAddressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"  
+      endAddress:
+        $ref: "#/definitions/Address"
+      endTime:
+        type: "string"
+        example: "2023-01-01 15:04:05"
+      order: 
+        type: number
+        example: 1
+      status: 
+        type: string
+        example: active
+
+  PatchRouteRequest:
+    type: "object"
+    properties:
+      startMileage:
+        type: number
+        example: 23323
+      startAddressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"  
+      startTime:
+        type: "string" 
+        example: "2024-01-01 15:04:05"
+      endMileage:
+        type: number
+        example: 24422
+      endAddressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"    
+      endTime:
+        type: "string"
+        example: "2024-03-03 15:04:05"
+      order:  
+        type: number
+        example: 3
+      loadingInvoiceId:
+        type: string
+        example: assafdafs-sadfsdf-adsf-adfsfds
+      unloadingInvoiceId:
+        type: string
+        example: assafdafs-sadfsdf-adsf-adfsfds
+      status:
+        type: string
+        example: done
+
+  CreateRouteRequest:
+    type: "object"
+    properties:
+      warrantId:
+        type: "string"
+        example: "018cfd18-f674-7d5e-8051-a4dea1acbe79"
+      startAddressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"  
+      startTime:
+        type: "string" 
+        example: "2022-01-01 15:04:05"
+      endAddressId:
+        type: "string"
+        example: "018cfd18-f492-7ade-803a-b414a0a8afac"    
+      endTime:
+        type: "string"
+        example: "2023-01-01 15:04:05"
+      order: 
+        type: number
+        example: 1
+      status: 
+        type: string
+        example: ready
+      loadingInvoiceId:
+        type: string
+        example: asdaddassd-as-dasdsadsadsad-dasads
+      unloadingInvoiceId:
+        type: string
+        example: asdaddassd-as-dasdsadsadsad-dasads
+
+
+  WarrantEvent:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "1"
+      createdAt:
+        type: string
+        format: date-time
+        example: "2023-01-01T12:00:00Z"
+      warrantId:
+        type: string
+        example: "018cfd18-f674-7d5e-8051-a4dea1acbe79"
+      warrant:
+        $ref: "#/definitions/Warrant"
+      routeId:
+        type: string
+        example: asdsaadsasd-asd-asdsadsadasd-sads
+      event:
+        type: string
+        enum:
+          - "Start"
+          - "CheckpointReached"
+          - "End"
+        example: "Start"
+      userId:
+        type: string
+        example: "1"
+      user:
+        $ref: "#/definitions/User"
+      meta:
+        type: object
+        additionalProperties: true
+        example: { "key": "value" }
+
+components:
+  headers:
+    # X-RateLimit-Remaining:
+    #   description: 'The number of requests left for the time window.'
+    #   schema:
+    #     type: integer
+    # X-RateLimit-Limit:
+    #   description: 'The total number of requests in a given time window.'
+    #   schema:
+    #     type: integer
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
