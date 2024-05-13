@@ -18,10 +18,6 @@ type UserCompany struct {
 	CompanyID string         `json:"companyId" gorm:"primaryKey"`
 }
 
-func (uc UserCompany) ResouceName() string {
-	return "userCompanies"
-}
-
 func (uc UserCompany) TableName() string {
 	return "user_companies"
 }

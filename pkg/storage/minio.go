@@ -1,18 +1,12 @@
 package storage
 
 import (
-	"context"
 	"net/http"
-	"net/url"
 	"sync"
-	"time"
 	"warrant-api/pkg/config"
-	"warrant-api/pkg/db/model"
 	"warrant-api/pkg/messages"
-	"warrant-api/pkg/repo"
 	"warrant-api/pkg/utils"
 
-	"github.com/gin-gonic/gin"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 )
@@ -34,6 +28,7 @@ func Init() {
 	}
 }
 
+/*
 func PutTransportCost(g *gin.Context, transportCost *model.TransportCost) error {
 	if transportCost.FileName.Valid {
 		url, err := presignedPut(g, transportCost.WarrantID+"/costs/"+transportCost.ID+"."+transportCost.FileName.String)
@@ -171,3 +166,5 @@ func presignedGet(g *gin.Context, name string) (*url.URL, error) {
 // 	return mc.PresignedPutObject(context.Background(), config.Storage.Bucket, name, 10*time.Second)
 
 // }
+
+*/

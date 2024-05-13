@@ -13,9 +13,6 @@ type Login struct {
 	Result       enum.LoginResult `json:"result"`
 }
 
-func (a Login) ResouceName() string {
-	return "login"
-}
 func (a Login) TableName() string {
 	return "login"
 }

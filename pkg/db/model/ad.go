@@ -4,7 +4,7 @@ import (
 	"gopkg.in/guregu/null.v4"
 )
 
-type Address struct {
+type Ad struct {
 	BaseModel
 	City     string      `json:"city"`
 	Street   string      `json:"street"`
@@ -12,6 +12,6 @@ type Address struct {
 	Name     null.String `json:"name"`
 }
 
-func (Address) TableName() string {
-	return "addresses"
+func (Ad) TableName() string {
+	return "ad"
 }

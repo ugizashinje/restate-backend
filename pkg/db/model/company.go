@@ -14,12 +14,7 @@ type Company struct {
 	Mn        string         `json:"mn" gorm:"unique"`
 	Phone     string         `json:"phone"`
 	Email     string         `json:"email"`
-	Employees []UserCompany  `json:"companies"`
 	Meta      datatypes.JSON `json:"meta"`
-}
-
-func (a Company) ResouceName() string {
-	return "companies"
 }
 
 func (Company) TableName() string {

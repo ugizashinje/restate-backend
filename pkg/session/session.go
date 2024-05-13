@@ -17,7 +17,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/gomodule/redigo/redis"
-	"gopkg.in/guregu/null.v4"
 	"gorm.io/gorm"
 )
 
@@ -87,7 +86,7 @@ func (s *Session) Roles(companyId string) (isManager, isDispatcher, isDriver boo
 	}
 	return isManager, isDispatcher, isDriver
 }
-func (s *Session) LogEvent(g *gin.Context, warrant *model.Warrant, route *model.Route, object any, eventType enum.EventType) error {
+func (s *Session) LogEvent(g *gin.Context, warrant *model.Warrant, object any, eventType enum.EventType) error {
 	if warrant == nil {
 		return messages.Errorf(http.StatusBadRequest, "Warrant not provided")
 	}
@@ -100,14 +99,10 @@ func (s *Session) LogEvent(g *gin.Context, warrant *model.Warrant, route *model.
 	if !found {
 		return messages.Unauthorized()
 	}
-	event := model.WarrantEvent{
-		WarrantID: warrant.ID,
-		UserID:    s.User.ID,
-		Event:     eventType,
-	}
-	if route != nil {
-		event.RouteID = null.NewString(route.ID, true)
-		event.Route = route
+	event := model.Change{
+		Ad:     warrant.ID,
+		UserID: s.User.ID,
+		Event:  eventType,
 	}
 	pruned := transformer.Map(object)
 	buff, err := json.Marshal(pruned)

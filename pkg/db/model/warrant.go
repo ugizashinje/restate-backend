@@ -17,9 +17,7 @@ type Warrant struct {
 	Driver               User               `json:"-"`
 	Passengers           pq.StringArray     `json:"passengers" gorm:"type:text[]"`
 	VehicleID            string             `json:"vehicleId"`
-	Vehicle              Vehicle            `json:"-"`
 	TrailerID            null.String        `json:"trailerId"`
-	Trailer              Vehicle            `json:"-"`
 	CompanyID            string             `json:"companyId"`
 	Company              Company            `json:"-"`
 	DispatcherID         string             `json:"dispatcherId"`
@@ -30,9 +28,6 @@ type Warrant struct {
 	Note                 null.String        `json:"note,omitempty"`
 }
 
-func (a Warrant) ResouceName() string {
-	return "warrants"
-}
 func (a Warrant) TableName() string {
 	return "warrants"
 }

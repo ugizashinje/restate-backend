@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"time"
 	"warrant-api/pkg/config"
-	"warrant-api/pkg/ctx"
 	"warrant-api/pkg/db/model"
 	"warrant-api/pkg/enum"
 	"warrant-api/pkg/messages"
@@ -81,20 +80,20 @@ func (svc *WarrantServiceImpl) Create(g *gin.Context, createWarrant CreateWarran
 	result := svc.WarrantRepo.Create(g, warrant)
 	utils.Handle(result.Error)
 
-	userSession.LogEvent(g, warrant, nil, createWarrant, enum.CreateWarrant)
+	// userSession.LogEvent(g, warrant, nil, createWarrant, enum.CreateWarrant)
 
 	return warrant, nil
 }
 
 func (svc *WarrantServiceImpl) Delete(g *gin.Context, warrantID string) (warrant *model.Warrant, err error) {
-	raw, _ := g.Get(ctx.Session)
-	userSession := raw.(*session.Session)
+	// raw, _ := g.Get(ctx.Session)
+	// userSession := raw.(*session.Session)
 	svc.CheckWarrantGrants(g, warrantID, true)
 	warrant = &model.Warrant{}
 	result := svc.WarrantRepo.Delete(g, warrant, warrantID)
 	utils.Handle(result.Error)
 
-	userSession.LogEvent(g, warrant, nil, nil, enum.DeleteWarrant)
+	// userSession.LogEvent(g, warrant, nil, nil, enum.DeleteWarrant)
 
 	return warrant, nil
 }
@@ -134,9 +133,9 @@ func (svc *WarrantServiceImpl) Update(g *gin.Context, warrantID string, patch Pa
 	result = svc.WarrantRepo.Save(g, warrant)
 	utils.Handle(result.Error)
 
-	raw, _ := g.Get(ctx.Session)
-	userSession, _ := raw.(*session.Session)
-	userSession.LogEvent(g, warrant, nil, patch, enum.UpdateWarrant)
+	// raw, _ := g.Get(ctx.Session)
+	// userSession, _ := raw.(*session.Session)
+	// userSession.LogEvent(g, warrant, nil, patch, enum.UpdateWarrant)
 	return warrant, nil
 }
 

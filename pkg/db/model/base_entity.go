@@ -18,7 +18,6 @@ type BaseModel struct {
 }
 
 type BaseInterface interface {
-	ResouceName() string
 	TableName() string
 }
 

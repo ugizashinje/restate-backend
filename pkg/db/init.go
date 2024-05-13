@@ -28,8 +28,8 @@ func Init(cfg config.DBConfig) (*gorm.DB, error) {
 			Colorful:                  true,        // Disable color
 		},
 	)
-	connectionString := fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable",
-		cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.Dbname)
+	connectionString := fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=%s",
+		cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.Dbname, cfg.SslMode)
 	sqlDB, err := sql.Open("postgres", connectionString)
 	if err != nil {
 		log.Fatal(err)

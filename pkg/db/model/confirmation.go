@@ -13,9 +13,6 @@ type Confirmation struct {
 	Status enum.ConfirmationStatus `json:"status"`
 }
 
-func (a Confirmation) ResouceName() string {
-	return "confirmations"
-}
 func (Confirmation) TableName() string {
 	return "confirmations"
 }

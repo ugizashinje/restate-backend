@@ -12,16 +12,8 @@ func Register(engine *gin.Engine) {
 
 	v1 := engine.Group("/v1")
 	RegisterAddress(v1)
-	RegisterRoute(v1)
-	RegisterTransportCost(v1)
-	RegisterRepair(v1)
-	RegisterShippingInvoice(v1)
 	RegisterCompany(v1)
-	RegisterVehicle(v1)
-	RegisterWarrant(v1)
-	RegisterWarrantEvent(v1)
 	RegisterUser(v1)
-	RegisterDriverCategory(v1)
 	RegisterAuth(v1)
 }
 

@@ -102,7 +102,7 @@ func QueryFilter[T model.BaseInterface](g *gin.Context, db *gorm.DB, t *[]T) map
 	zeroType := reflect.New(ptrType)
 	zeroValue := reflect.New(zeroType.Type().Elem())
 	b := zeroValue.Interface().(model.BaseInterface)
-	resource := b.ResouceName()
+	resource := b.TableName()
 	path := strings.Split(g.Request.URL.Path, "/")
 	if len(path) < 2 {
 		Handle(messages.Errorf(http.StatusBadRequest, "Invalid resrouce"))

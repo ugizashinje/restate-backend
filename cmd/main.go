@@ -4,7 +4,6 @@ import (
 	"warrant-api/pkg/config"
 	"warrant-api/pkg/db"
 	"warrant-api/pkg/server"
-	"warrant-api/pkg/superset"
 	"warrant-api/pkg/wire"
 )
 
@@ -20,11 +19,11 @@ func main() {
 		panic(err)
 	}
 
-	c := make(chan int)
-	go func() {
-		superset.MaintainToken(c)
-	}()
-	<-c
+	// c := make(chan int)
+	// go func() {
+	// 	superset.MaintainToken(c)
+	// }()
+	// <-c
 	server.Start(gormDB)
 
 }

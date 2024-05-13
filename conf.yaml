@@ -1,9 +1,9 @@
-  db:
+  db:  # postgresql://restate_owner:EWJgNwtBrC20 ep-round-base-a2uslmgn.eu-central-1.aws.neon.tech /restate?sslmode=require
     host: ep-round-base-a2uslmgn.eu-central-1.aws.neon.tech
     port: 5432
     user: restate_owner
     password: EWJgNwtBrC20
-    dbname: dev
+    dbname: restate
     sslmode: require
     # dblogging: true
   auth:
@@ -23,13 +23,3 @@
     password: magicHubAdmin
     username: admin
 
-  # superset:
-  #   username: admin
-  #   password: admin
-  #   url : http://localhost:8088/api/v1
-  # storage:
-  #   endpoint:  localhost:9000
-  #   accessKeyId : zhHnG4T1Ae8rY21p  
-  #   secretAccessKey : pVA9j7J6FJ4gVc3kMXUs0xNyH5RKSgFV
-  #   bucket: uploads
-  #   useSSL : true
