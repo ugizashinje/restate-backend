@@ -41,7 +41,8 @@ func Init(cfg config.DBConfig) (*gorm.DB, error) {
 		gormConfig.Logger = logger.Default.LogMode(logger.Silent)
 	}
 	gormDB, err := gorm.Open(postgres.New(postgres.Config{
-		Conn: sqlDB,
+		Conn:                 sqlDB,
+		PreferSimpleProtocol: true,
 	}), gormConfig)
 	newLogger.Info(context.Background(), "connectino string  ", connectionString)
 

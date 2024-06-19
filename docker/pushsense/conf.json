@@ -1,0 +1,74 @@
+{
+  "db": {
+    "url": "user=restate_owner password=EWJgNwtBrC20 host=ep-round-base-a2uslmgn.eu-central-1.aws.neon.tech port=5432 dbname=restate sslmode=require"
+  },
+  
+  "typesense": {
+    "url": "http://typesense:8108",
+    "apiKey": "xyz",
+    "connectionTimeout": 5,
+    "circuitBreakerMaxRequest": 50,
+    "circuitBreakerMaxInterval": 120,
+    "circuitBreakerMaxTimeout": 60
+  },
+  "collections": {
+    "users": {
+      "tableName": "users",
+      "sql": "select * from users where updated_at >= $1 LIMIT 100",
+      "schema" : {
+        "name": "users",  
+        "fields": [
+          {"name": "active", "type": "bool"},
+          {"name": "email", "type": "string"},
+          {"name": "firstName", "type": "string"},
+          {"name": "lastName", "type": "string"},
+          {"name": "birthplace", "type": "string"},
+          {"name": "phone", "type": "string"},
+          {"name": "addressId", "type": "string"}
+        ]
+      }
+    },
+    "apartments": {
+      "tableName": "apartments",
+      "sql": "select * from apartments where updated_at >= $1 LIMIT 100",
+      "schema" : {
+        "name": "apartments",  
+        "fields": [
+          {"name": "street", "type": "string"},
+          {"name": "location.lvl0", "type": "string"},
+          {"name": "location.lvl1", "type": "string"},
+          {"name": "location.lvl2", "type": "string"},
+         
+          {"name": "age", "type": "int32"},
+          {"name": "totalFloors", "type": "int32"},
+          {"name": "basemant", "type": "bool"},
+          {"name": "groundFloor", "type": "bool"},
+          {"name": "lastFloor", "type": "bool"},
+          {"name": "highGroundFloor", "type": "bool"},
+          {"name": "monthlyFees", "type": "int32"},
+
+          {"name": "sallon", "type": "bool"},
+          {"name": "duplex", "type": "bool"},
+          {"name": "penthouse", "type": "bool"},
+          {"name": "energyEff", "type": "bool"},
+ 
+          {"name": "condition", "type": "string"},
+          {"name": "heating", "type": "string"},
+          {"name": "rooms", "type": "string"},
+
+          {"name": "registered", "type": "bool"},
+          {"name": "occupiable", "type": "bool"},
+          {"name": "withinHouse", "type": "bool"},
+          {"name": "taxRefundable", "type": "bool"},
+          {"name": "swappable", "type": "bool"},
+          {"name": "morgage", "type": "bool"},
+          {"name": "urgent", "type": "bool"},
+          {"name": "seller", "type": "string"}
+        ]
+      }
+    }
+  }
+}
+
+
+

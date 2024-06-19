@@ -66,36 +66,11 @@ type Session struct {
 	ThrottleHits [6]int     `json:"Hits"`
 }
 
-func (s *Session) Roles(companyId string) (isManager, isDispatcher, isDriver bool) {
-	for _, userCompany := range s.User.Companies {
-		if companyId == userCompany.CompanyID {
-			for _, role := range userCompany.Roles {
-				if role == string(enum.Manager) {
-					isManager = true
-				}
-				if role == string(enum.Dispatcher) {
-					isDispatcher = true
-				}
-				if role == string(enum.Driver) {
-					isDriver = true
-				}
-
-			}
-
-		}
-	}
-	return isManager, isDispatcher, isDriver
-}
 func (s *Session) LogEvent(g *gin.Context, warrant *model.Warrant, object any, eventType enum.EventType) error {
 	if warrant == nil {
 		return messages.Errorf(http.StatusBadRequest, "Warrant not provided")
 	}
 	found := false
-	for _, c := range s.User.Companies {
-		if c.CompanyID == warrant.CompanyID {
-			found = true
-		}
-	}
 	if !found {
 		return messages.Unauthorized()
 	}

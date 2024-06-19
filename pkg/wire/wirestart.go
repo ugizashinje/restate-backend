@@ -14,7 +14,9 @@ import (
 
 type Wires struct {
 	AuthService               services.AuthServiceImpl
+	ApartmentService          services.ApartmentServiceImpl
 	AddressService            services.AddressServiceImpl
+	LocationService           services.LocationServiceImpl
 	CompanyService            services.CompanyServiceImpl
 	UserService               services.UserServiceImpl
 	WarrantService            services.WarrantServiceImpl
@@ -43,13 +45,18 @@ func Init(env string) *Wires {
 			SupersetGuestTokenUrl: config.Superset.Url + "/security/guest_token",
 		},
 		AddressService: addressService,
+		LocationService: services.LocationServiceImpl{
+			LocationRepo: repo.Repo[model.Location]{},
+		},
 		CompanyService: services.CompanyServiceImpl{
 			AddressService: addressService,
 			CompanyRepo:    repo.Repo[model.Company]{},
 		},
 		UserService: services.UserServiceImpl{
-			UserRepo:        repo.User{},
-			UserCompanyRepo: repo.Repo[model.UserCompany]{},
+			UserRepo: repo.User{},
+		},
+		ApartmentService: services.ApartmentServiceImpl{
+			ApartmentRepo: repo.Repo[model.Apartment]{},
 		},
 		TransactionalEmailService: services.TransactionalEmailServiceImpl{},
 	}

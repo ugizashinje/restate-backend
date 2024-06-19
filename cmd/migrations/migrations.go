@@ -36,29 +36,29 @@ func main() {
 	// newLogger.Info(context.Background(), "connectino string  ", connectionString)
 
 	tables := []interface{}{
+		&model.Ad{},
 		&model.Address{},
-		&model.Company{},
+		&model.Apartment{},
 		&model.Change{},
-		&model.Vehicle{},
-		&model.User{},
-		&model.DriverCategory{},
+		&model.CollectionEntry{},
+		&model.Collection{},
+		&model.Company{},
 		&model.Confirmation{},
+		&model.Location{},
+		&model.Like{},
 		&model.Login{},
-		&model.Route{},
-		&model.Repair{},
-		&model.ShippingInvoice{},
-		&model.TransportCost{},
+		&model.UserCollection{},
+		// &model.UserCompany{},
 		&model.User{},
-		&model.Vehicle{},
 		&model.Warrant{},
-		&model.WarrantEvent{},
-		&model.UserCompany{},
 	}
 
 	gormDB.Statement.Migrator().DropTable(tables...)
 	if err := gormDB.AutoMigrate(tables...); err != nil {
 		log.Fatal("Failed to do migration ", err.Error())
 	}
-	gormDB.SetupJoinTable(&model.User{}, "Companies", &model.UserCompany{})
+	// gormDB.SetupJoinTable(&model.User{}, "Companies", &model.UserCompany{})
+	gormDB.SetupJoinTable(&model.User{}, "Collections", &model.UserCollection{})
+	gormDB.SetupJoinTable(&model.User{}, "Likes", &model.Like{})
 
 }

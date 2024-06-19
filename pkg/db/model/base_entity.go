@@ -40,5 +40,11 @@ var GenUUID = uuid7.New()
 func (base *BaseModel) BeforeCreate(tx *gorm.DB) (err error) {
 	base.ID = GenUUID.Next().String()
 	base.CreatedAt = time.Now()
+	base.UpdatedAt = null.TimeFrom(time.Now())
+	return nil
+}
+
+func (base *BaseModel) BeforeUpdate(tx *gorm.DB) error {
+	base.UpdatedAt = null.TimeFrom(time.Now())
 	return nil
 }

@@ -1,0 +1,238 @@
+HELO:<pop-os>
+FROM:<register@eputni.com>
+TO:<4204b158-a244-4092-817f-f05dd9d95903@shiggy.com>
+
+Date: Thu, 23 May 2024 05:50:38 +0200
+MIME-Version: 1.0
+Message-ID: <124184288.64267920904.4WizSZqqTKG353YNX@pop-os>
+Subject: Potvrdite vas email na portalu putni
+User-Agent: go-mail v0.4.0 // https://github.com/wneessen/go-mail
+X-Mailer: go-mail v0.4.0 // https://github.com/wneessen/go-mail
+From: <register@eputni.com>
+To: <4204b158-a244-4092-817f-f05dd9d95903@shiggy.com>
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns=3D"http://www.w3.=
+org/1999/xhtml"><head>
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1.0"/>
+  <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8"/=
+>
+ =20
+<style type=3D"text/css">*:not(br):not(tr):not(html) {
+font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif !important;
+-webkit-box-sizing: border-box !important;
+box-sizing: border-box !important
+}cite:before {
+content: "\2014 \0020" !important
+}@media only screen and (max-width: 600px){
+.email-body_inner,
+      .email-footer {
+width: 100% !important
+}
+}
+@media only screen and (max-width: 500px){
+.button {
+width: 100% !important
+}
+}
+</style></head>
+<body dir=3D"ltr" style=3D"height:100%;margin:0;line-height:1.4;background-=
+color:#F2F4F6;color:#74787E;-webkit-text-size-adjust:none;width:100%">
+  <table class=3D"email-wrapper" width=3D"100%" cellpadding=3D"0" cellspaci=
+ng=3D"0" style=3D"width:100%;margin:0;padding:0;background-color:#F2F4F6">
+    <tbody><tr>
+      <td class=3D"content" style=3D"color:#74787E;font-size:15px;line-heig=
+ht:18px;align:center;padding:0">
+        <table class=3D"email-content" width=3D"100%" cellpadding=3D"0" cel=
+lspacing=3D"0" style=3D"width:100%;margin:0;padding:0">
+         =20
+          <tbody><tr>
+            <td class=3D"email-masthead" style=3D"color:#74787E;font-size:1=
+5px;line-height:18px;padding:25px 0;text-align:center">
+              <a class=3D"email-masthead_name" href=3D"http://139.162.145.6=
+2:9876/" target=3D"_blank" style=3D"font-size:16px;font-weight:bold;color:#=
+2F3133;text-decoration:none;text-shadow:0 1px 0 white">
+               =20
+                  <img src=3D"http://www.duchess-france.org/wp-content/uplo=
+ads/2016/01/gopher.png" class=3D"email-logo" style=3D"max-height:50px"/>
+               =20
+                </a>
+            </td>
+          </tr>
+
+         =20
+          <tr>
+            <td class=3D"email-body" width=3D"100%" style=3D"color:#74787E;=
+font-size:15px;line-height:18px;width:100%;margin:0;padding:0;border-top:1p=
+x solid #EDEFF2;border-bottom:1px solid #EDEFF2;background-color:#FFF">
+              <table class=3D"email-body_inner" align=3D"center" width=3D"5=
+70" cellpadding=3D"0" cellspacing=3D"0" style=3D"width:570px;margin:0 auto;=
+padding:0">
+               =20
+                <tbody><tr>
+                  <td class=3D"content-cell" style=3D"color:#74787E;font-si=
+ze:15px;line-height:18px;padding:35px">
+                    <h1 style=3D"margin-top:0;color:#2F3133;font-size:19px;=
+font-weight:bold">Postovani New User,</h1>
+                   =20
+                       =20
+                         =20
+                            <p style=3D"margin-top:0;color:#74787E;font-siz=
+e:16px;line-height:1.5em">Dobrodosli na ePutne naloge. Molmo vas potvrdite =
+vasu email adresu</p>
+                         =20
+                       =20
+                   =20
+                   =20
+
+                     =20
+
+                     =20
+                     =20
+                       =20
+                       =20
+                       =20
+                     =20
+
+                     =20
+                     =20
+                       =20
+                         =20
+                            <p style=3D"margin-top:0;color:#74787E;font-siz=
+e:16px;line-height:1.5em">Da nastavite sa registracijom: klinkite dugme</p>
+                           =20
+                           =20
+                           =20
+                              <!--[if mso]>
+                             =20
+                                <div style=3D"margin: 30px auto;v-text-anch=
+or:middle;text-align:center">
+                                  <v:roundrect xmlns:v=3D"urn:schemas-micro=
+soft-com:vml"=20
+                                    xmlns:w=3D"urn:schemas-microsoft-com:of=
+fice:word"=20
+                                    href=3D"http://localhost:9876/v1/auth/c=
+onfirm/18e3f002-7f9c-4a1e-8dff-8affad576281"=20
+                                    style=3D"height:45px;v-text-anchor:midd=
+le;width:200px;background-color:#22BC66;"
+                                    arcsize=3D"10%"=20
+                                    strokecolor=3D"#22BC66" fillcolor=3D"#2=
+2BC66"
+                                    >
+                                    <w:anchorlock/>
+                                    <center style=3D"color: #FFFFFF;font-si=
+ze: 15px;text-align: center;font-family:sans-serif;font-weight:bold;">
+                                      Potvrdi nalog
+                                    </center>
+                                  </v:roundrect>
+                                </div>
+                             =20
+                                =20
+                              <![endif]-->
+                              <!--[if !mso]><!-- -->
+                              <table class=3D"body-action" align=3D"center"=
+ width=3D"100%" cellpadding=3D"0" cellspacing=3D"0" style=3D"width:100%;mar=
+gin:30px auto;padding:0;text-align:center">
+                                <tbody><tr>
+                                  <td align=3D"center" style=3D"padding:10p=
+x 5px;color:#74787E;font-size:15px;line-height:18px">
+                                    <div>
+                                     =20
+                                        <a href=3D"http://localhost:9876/v1=
+/auth/confirm/18e3f002-7f9c-4a1e-8dff-8affad576281" class=3D"button" style=
+=3D"display:inline-block;border-radius:3px;font-size:15px;line-height:45px;=
+text-align:center;text-decoration:none;-webkit-text-size-adjust:none;mso-hi=
+de:all;color:#ffffff;background-color:#22BC66;width:200px" target=3D"_blank=
+" width=3D"200">
+                                          Potvrdi nalog
+                                        </a>
+                                     =20
+                                     =20
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody></table>
+                              <!--[endif]---->
+                         =20
+                       =20
+                     =20
+
+                   =20
+                    =20
+                       =20
+                         =20
+                            <p style=3D"margin-top:0;color:#74787E;font-siz=
+e:16px;line-height:1.5em">Ako vam je potrena pomoc molim vas pozovite nas n=
+a +3815223231321323231.</p>
+                         =20
+                       =20
+                     =20
+
+                    <p style=3D"margin-top:0;color:#74787E;font-size:16px;l=
+ine-height:1.5em">
+                      Yours truly,
+                      <br/>
+                      ePutni nalog
+                    </p>
+
+                   =20
+                      =20
+                        <table class=3D"body-sub" style=3D"width:100%;margi=
+n-top:25px;padding-top:25px;border-top:1px solid #EDEFF2;table-layout:fixed=
+">
+                          <tbody>
+                             =20
+                               =20
+                                <tr>
+                                  <td style=3D"padding:10px 5px;color:#7478=
+7E;font-size:15px;line-height:18px">
+                                    <p class=3D"sub" style=3D"margin-top:0;=
+color:#74787E;line-height:1.5em;font-size:12px">If you=E2=80=99re having tr=
+ouble with the button &#39;Potvrdi nalog&#39;, copy and paste the URL below=
+ into your web browser.</p>
+                                    <p class=3D"sub" style=3D"margin-top:0;=
+color:#74787E;line-height:1.5em;font-size:12px"><a href=3D"http://localhost=
+:9876/v1/auth/confirm/18e3f002-7f9c-4a1e-8dff-8affad576281" style=3D"color:=
+#3869D4;word-break:break-all">http://localhost:9876/v1/auth/confirm/18e3f00=
+2-7f9c-4a1e-8dff-8affad576281</a></p>
+                                  </td>
+                                </tr>
+                               =20
+                             =20
+                          </tbody>
+                        </table>
+                     =20
+                   =20
+                  </td>
+                </tr>
+              </tbody></table>
+            </td>
+          </tr>
+          <tr>
+            <td style=3D"padding:10px 5px;color:#74787E;font-size:15px;line=
+-height:18px">
+              <table class=3D"email-footer" align=3D"center" width=3D"570" =
+cellpadding=3D"0" cellspacing=3D"0" style=3D"width:570px;margin:0 auto;padd=
+ing:0;text-align:center">
+                <tbody><tr>
+                  <td class=3D"content-cell" style=3D"color:#74787E;font-si=
+ze:15px;line-height:18px;padding:35px">
+                    <p class=3D"sub center" style=3D"margin-top:0;line-heig=
+ht:1.5em;color:#AEAEAE;font-size:12px;text-align:center">
+                      Copyright =C2=A9 2020 Hermes. All rights reserved.
+                    </p>
+                  </td>
+                </tr>
+              </tbody></table>
+            </td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+  </tbody></table>
+
+
+</body></html>

@@ -1,0 +1,2009 @@
+{
+	"info": {
+		"_postman_id": "bb4fea44-6d2a-4194-aa91-5e290d247512",
+		"name": "Apartments",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2103729"
+	},
+	"item": [
+		{
+			"name": "auth Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const uuid = require('uuid')",
+							"let email=uuid()+'@shiggy.com'",
+							"pm.environment.set('email',email)",
+							"let pib = Math.floor(Math.random() * 10000);;",
+							"",
+							"pm.environment.set(\"pib\", pib);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"companyAddressCity\": \"{{$randomCity}}\",\r\n  \"companyAddressStreet\": \"{{$randomStreetAddress}}\",\r\n  \"companyAddressStreetNo\": \"{{$randomAlphaNumeric}}\",\r\n  \"companyAddressName\": \"{{$randomFirstName}}\",\r\n\r\n   \"companyName\": \"New Company 123\",\r\n  \"companyShort\": \"NewCo123\",\r\n  \"pib\":  \"{{pib}}\",\r\n  \"companyMn\": \"{{pib}}\",\r\n  \"companyPhone\": \"+987654321asdsad\",\r\n  \"companyEmail\": \"newcompany@example1.com\",\r\n\r\n\r\n  \"userAddressCity\": \"{{$randomCity}}\",\r\n  \"userAddressStreet\": \"{{$randomStreetAddress}}\",\r\n  \"userAddressStreetNo\": \"{{$randomAlphaNumeric}}\",\r\n  \"userAddressName\": \"{{$randomFirstName}}\",\r\n\r\n\r\n    \"userEmail\":\"{{email}}\",\r\n    \"userPassword\":\"newpassword\",\r\n    \"userFirstName\":\"New\",\r\n    \"userLastName\":\"User\",\r\n    \"userMn\":\"987654321\",\r\n    \"isDriver\" : true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/auth/register",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "auth get secret",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"    var responseBody = pm.response.json();",
+							"    postman.setEnvironmentVariable(\"confirmation\", responseBody.message);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9877/confirmations/{{email}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9877",
+					"path": [
+						"confirmations",
+						"{{email}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "auth confirm",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"companyAddressCity\": \"New City 123\",\r\n  \"companyAddressStreet\": \"New Street 123\",\r\n  \"companyAddressStreetNo\": \"789567\",\r\n  \"companyAddressName\": \"New Address Name 123\",\r\n\r\n   \"companyName\": \"New Company 123\",\r\n  \"companyShort\": \"NewCo123\",\r\n  \"pib\":  \"{{pib}}\",\r\n  \"companyMn\": \"{{pib}}\",\r\n  \"companyPhone\": \"+987654321asdsad\",\r\n  \"companyEmail\": \"newcompany@example1.com\",\r\n\r\n\r\n  \"userAddressCity\": \"New City 123\",\r\n  \"userAddressStreet\": \"New Street 123\",\r\n  \"userAddressStreetNo\": \"789567\",\r\n  \"userAddressName\": \"New Address Name 123\",\r\n\r\n\r\n    \"userEmail\":\"{{email}}\",\r\n    \"userPassword\":\"newpassword\",\r\n    \"userFirstName\":\"New\",\r\n    \"userLastName\":\"User\",\r\n    \"userMn\":\"987654321\",\r\n    \"isDriver\" : true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/auth/confirm/{{confirmation}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"auth",
+						"confirm",
+						"{{confirmation}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "auth Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody = pm.response.json();",
+							"postman.setEnvironmentVariable(\"authorizationHeader\", \"Bearer \" + responseBody.accessToken);",
+							"",
+							"",
+							"let [jwtHeader, jwtPayload, jwtSignature] = responseBody.accessToken.split('.')",
+							"",
+							"let jwtPayloadJsonString = atob(jwtPayload)",
+							"",
+							"console.log(jwtPayloadJsonString)",
+							"",
+							"let jwtPayloadJson = JSON.parse(jwtPayloadJsonString)",
+							"postman.setEnvironmentVariable(\"registeredUser\",  jwtPayloadJson.sub);",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\" : \"{{email}}\",\r\n\"password\" : \"newpassword\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/auth/login",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUser Logged In",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody = pm.response.json();",
+							"",
+							"postman.setEnvironmentVariable(\"registeredCompany\",  responseBody.companies[0].companyId);",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/{{registeredUser}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						"{{registeredUser}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody = pm.response.json();",
+							"",
+							"postman.setEnvironmentVariable(\"registeredCompany\",  responseBody.companies[0].companyId);",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/{{registeredUser}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						"{{registeredUser}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createAppartment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"apartmentId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"prelep stan na ivici razuma\",\r\n\t\"street\" : \"Nehruopva\",\r\n\t\"city\" : \"Belgrade\",\r\n\t\"muni\": \"New Belgrade\",\r\n\t\"location\": \"Blok 45\",\r\n    \"age\" : 1987,\r\n    \"totalFloors\" : 10,\r\n    \"floors\" : 1,\r\n    \"basement\" : false, \r\n    \"groundFloor\" : false,\r\n    \"highGroundFloor\" : false, \r\n    \"lastFloor\" : false, \r\n    \"monthlyFees\" : 10000,\r\n    \"sallon\" : false,\r\n    \"duplex\": false,\r\n    \"penthouse\": false, \r\n    \"energyEff\": true,\r\n    \"condition\": \"habitable\",\r\n    \"heating\" : \"central\",\r\n    \"rooms\": 3,\r\n    \"registered\" : true, \r\n    \"occupiable\" : true, \r\n    \"withinHouse\" : true, \r\n    \"taxRefundable\" : true, \r\n    \"swappable\" : true, \r\n    \"morgage\" : false, \r\n    \"urgent\" : false, \r\n    \"seller\" : \"agency\", \r\n    \"tags\" : [\"petFriendly\", \"sunny\", \"lux\"], \r\n    \"thumbnail\" : \"http://asdasdasd.cmd/assdasd/asd\",\r\n    \"floorPlan\" : [{\r\n        \"plan\": \"htaead:sasadsad\"\r\n    }]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/apartments/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"apartments",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch Appartment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"addressId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"condition\" : \"inhabitable\",\r\n\t\"street\" : \"Mutapova\",\r\n\t\"city\" : \"Belgrade\",\r\n\t\"muni\": \"New Belgrade\",\r\n\t\"location\": \"Blok 62\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/apartments/{{apartmentId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"apartments",
+						"{{apartmentId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createAddress Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"addressId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"city\": \"New City 123\",\r\n  \"street\": \"New Street 123\",\r\n  \"streetNo\": \"789567\",\r\n  \"name\": \"New Address Name 123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/addresses/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"addresses",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createVehicle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"vehicleId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"companyId\" : \"{{registeredCompany}}\",\r\n  \"plate\": \"New Plate\",\r\n  \"model\": \"New Model\",\r\n  \"producer\": \"New Producer\",\r\n  \"type\": \"New Type\",\r\n  \"weight\": 2000,\r\n  \"maxWeight\": 3000,\r\n  \"capacity\": 5,\r\n  \"homologationMark\": \"New Homologation Mark\",\r\n  \"motorVolume\": 2000,\r\n  \"power\": 150,\r\n  \"fuel\": \"New Fuel\",\r\n  \"consumption\": 10.5,\r\n  \"thrustWeight\": 15,\r\n  \"standingSpace\": 2,\r\n  \"seatingSpace\": 5,\r\n  \"color\": \"New Color\",\r\n  \"shaft\": 2,\r\n  \"chasie\": \"New Chasie\",\r\n  \"motor\": \"New Motor\",\r\n  \"insurance\": \"New Insurance\",\r\n  \"registrationDate\": \"2023-01-01\",\r\n  \"firstRegistrationDate\": \"2022-01-01\",\r\n  \"ownerMn\": 1234567890123,\r\n  \"ownerLastName\": \"New Owner Last Name\",\r\n  \"ownerAddressId\": \"{{addressId}}\",\r\n  \"userFirstName\": \"New User First Name\",\r\n  \"userLastName\": \"New User Last Name\",\r\n  \"userAddressId\": \"{{addressId}}\",\r\n  \"userMn\": 9876543210987,\r\n  \"registrationCertificateDate\": \"2023-01-01\",\r\n  \"registrationExpiry\": \"2023-01-01\",\r\n  \"registerId\": 123,\r\n  \"meta\": {\r\n    \"additionalProp1\": \"string\",\r\n    \"additionalProp2\": \"string\",\r\n    \"additionalProp3\": \"string\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/vehicles/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"vehicles",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search Vehicle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"plate\": \"New Plate\",\r\n  \"model\": \"New Model\",\r\n  \"producer\": \"New Producer\",\r\n  \"type\": \"New Type\",\r\n  \"weight\": 2000,\r\n  \"maxWeight\": 3000,\r\n  \"capacity\": 5,\r\n  \"homologationMark\": \"New Homologation Mark\",\r\n  \"motorVolume\": 2000,\r\n  \"power\": 150,\r\n  \"fuel\": \"New Fuel\",\r\n  \"consumption\": 10.5,\r\n  \"thrustWeight\": 15,\r\n  \"standingSpace\": 2,\r\n  \"seatingSpace\": 5,\r\n  \"color\": \"New Color\",\r\n  \"shaft\": 2,\r\n  \"chasie\": \"New Chasie\",\r\n  \"motor\": \"New Motor\",\r\n  \"insurance\": \"New Insurance\",\r\n  \"registrationDate\": \"2023-01-01\",\r\n  \"firstRegistrationDate\": \"2022-01-01\",\r\n  \"ownerMn\": 1234567890123,\r\n  \"ownerLastName\": \"New Owner Last Name\",\r\n  \"ownerAddressId\": \"{{addressId}}\",\r\n  \"userFirstName\": \"New User First Name\",\r\n  \"userLastName\": \"New User Last Name\",\r\n  \"userAddressId\": \"{{addressId}}\",\r\n  \"userMn\": 9876543210987,\r\n  \"registrationCertificateDate\": \"2023-01-01\",\r\n  \"registrationExpiry\": \"2023-01-01\",\r\n  \"registerId\": 123,\r\n  \"meta\": {\r\n    \"additionalProp1\": \"string\",\r\n    \"additionalProp2\": \"string\",\r\n    \"additionalProp3\": \"string\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/vehicles/?companyId=018dd173-19f2-7a3c-80be-73babd8455b2",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"vehicles",
+						""
+					],
+					"query": [
+						{
+							"key": "companyId",
+							"value": "018dd173-19f2-7a3c-80be-73babd8455b2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Vehicle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"plate\": \"New Plate\",\r\n  \"model\": \"New Model\",\r\n  \"producer\": \"New Producer\",\r\n  \"type\": \"New Type\",\r\n  \"weight\": 2000,\r\n  \"maxWeight\": 3000,\r\n  \"capacity\": 5,\r\n  \"homologationMark\": \"New Homologation Mark\",\r\n  \"motorVolume\": 2000,\r\n  \"power\": 150,\r\n  \"fuel\": \"New Fuel\",\r\n  \"consumption\": 10.5,\r\n  \"thrustWeight\": 15,\r\n  \"standingSpace\": 2,\r\n  \"seatingSpace\": 5,\r\n  \"color\": \"New Color\",\r\n  \"shaft\": 2,\r\n  \"chasie\": \"New Chasie\",\r\n  \"motor\": \"New Motor\",\r\n  \"insurance\": \"New Insurance\",\r\n  \"registrationDate\": \"2023-01-01\",\r\n  \"firstRegistrationDate\": \"2022-01-01\",\r\n  \"ownerMn\": 1234567890123,\r\n  \"ownerLastName\": \"New Owner Last Name\",\r\n  \"ownerAddressId\": \"{{addressId}}\",\r\n  \"userFirstName\": \"New User First Name\",\r\n  \"userLastName\": \"New User Last Name\",\r\n  \"userAddressId\": \"{{addressId}}\",\r\n  \"userMn\": 9876543210987,\r\n  \"registrationCertificateDate\": \"2023-01-01\",\r\n  \"registrationExpiry\": \"2023-01-01\",\r\n  \"registerId\": 123,\r\n  \"meta\": {\r\n    \"additionalProp1\": \"string\",\r\n    \"additionalProp2\": \"string\",\r\n    \"additionalProp3\": \"string\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/vehicles/{{vehicleId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"vehicles",
+						"{{vehicleId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchVehicle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"ownerAddressId\": \"{{addressId}}\",\r\n  \"userLastName\": \"Renamed\",\r\n  \"userAddressId\": \"{{addressId}}\",\r\n  \"userMn\": 9876543210987,\r\n  \"registrationExpiry\": \"2023-01-01\",\r\n  \"registerId\": 123\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/vehicles/{{vehicleId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"vehicles",
+						"{{vehicleId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createUser Driver",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();",
+							"    postman.setEnvironmentVariable(\"driverId\", responseBody.id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\":\"newpassword\",\r\n    \"firstName\":\"{{$randomFirstName}}\",\r\n    \"lastName\":\"{{$randomLastName}}\",\r\n    \"mn\":\"987654321\",\r\n    \"companyId\":\"{{registeredCompany}}\",\r\n    \"addressId\":\"{{addressId}}\",\r\n    \"isDriver\" : true,\r\n    \"roles\":[\"driver\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createUser Dispatcher",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();",
+							"    postman.setEnvironmentVariable(\"dispatcherId\", responseBody.id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\":\"newpassword\",\r\n    \"firstName\":\"{{$randomFirstName}}\",\r\n    \"lastName\":\"{{$randomLastName}}\",\r\n    \"mn\":\"987654321\",\r\n    \"companyId\":\"{{registeredCompany}}\",\r\n    \"addressId\":\"{{addressId}}\",\r\n    \"isDriver\" : true,\r\n    \"roles\":[\"dispatcher\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody = pm.response.json();",
+							"",
+							"postman.setEnvironmentVariable(\"registeredCompany\",  responseBody.companies[0].companyId);",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/{{driverId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						"{{driverId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Company",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/companies/{{registeredCompany}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"companies",
+						"{{registeredCompany}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch User Driver",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lastName\":\"{{$randomLastName}}\",\r\n    \"addToCompany\" : \"{{registeredCompany}}\",\r\n    \"roles\" : [\"manager\", \"dispatcher\"],\r\n    \"licenceNumber\": \"1231321\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/{{registeredUser}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						"{{registeredUser}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createDriverCategory",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"driverCategoryId\", responseBody.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\":\"{{driverId}}\",\r\n    \"category\":\"New Category\",\r\n    \"issued\":\"2022-01-01\",\r\n    \"expired\":\"2023-01-01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/driverCategories/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"driverCategories",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"newuser@example.com\",\r\n    \"password\":\"newpassword\",\r\n    \"firstName\":\"New\",\r\n    \"lastName\":\"User\",\r\n    \"mn\":\"987654321\",\r\n    \"companyId\":\"{{companyId}}\",\r\n    \"addressId\":\"{{addressId}}\",\r\n    \"roles\":[\"manager\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/?companyId={{registeredCompany}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						""
+					],
+					"query": [
+						{
+							"key": "companyId",
+							"value": "{{registeredCompany}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createWarrant",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"warrantId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"expectedStart\": \"2012-11-02 15:04:05\",\r\n  \"driverId\": \"{{driverId}}\",\r\n  \"vehicleId\": \"{{vehicleId}}\",\r\n\"companyId\": \"{{registeredCompany}}\",\r\n\"dispatcherId\": \"{{dispatcherId}}\",\r\n\"technicalCorrectness\": \"ready\",\r\n\"status\": \"template\",\r\n\"passangers\" : [\"Nikola Sijakinjic\", \"Petar Muric\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/warrants/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"warrants",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get warrants",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/warrants/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"warrants",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch Warrant",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"addPassenger\" : \"Nikola Sijakinjic\",\r\n  \"status\": \"preparation\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/warrants/{{warrantId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"warrants",
+						"{{warrantId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete Warrant",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"addPassenger\" : \"Nikola Sijakinjic\",\r\n  \"status\": \"preparation\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/warrants/{{warrantId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"warrants",
+						"{{warrantId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createRoute",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"routeId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startAddressId\":\"{{addressId}}\",\r\n  \"startTime\":\"2022-01-01 15:04:05\",\r\n  \"endAddressId\":\"{{addressId}}\",\r\n  \"endTime\":\"2022-01-01 15:04:05\",\r\n  \"warrantId\":\"{{warrantId}}\",\r\n  \"status\": \"ready\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/routes/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"routes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Route",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startAddressId\":\"{{addressId}}\",\r\n  \"startTime\":\"2022-01-01 15:04:05\",\r\n  \"endAddressId\":\"{{addressId}}\",\r\n  \"endTime\":\"2022-01-01 15:04:05\",\r\n  \"warrantId\":\"{{warrantId}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/routes/{{routeId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"routes",
+						"{{routeId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all Routes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/routes/?warrantId={{warrantId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"routes",
+						""
+					],
+					"query": [
+						{
+							"key": "warrantId",
+							"value": "{{warrantId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createTransportCosts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"transportCostsId\", responseBody.id);\r",
+							"    postman.setEnvironmentVariable(\"minioUrl\", responseBody.url);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"warrantId\": \"{{warrantId}}\",\r\n  \"type\": \"type\",\r\n  \"code\": \"code\",\r\n  \"fileName\" : \"{{$randomFileName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/transportCosts/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"transportCosts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post Image to minio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/home/shiggy/Documents/flinkedtree.png"
+					}
+				},
+				"url": {
+					"raw": "{{minioUrl}}",
+					"host": [
+						"{{minioUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "allTransportCosts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"warrantId\": \"{{warrantId}}\",\r\n  \"type\": \"type\",\r\n  \"code\": \"code\",\r\n  \"content\": \"32\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/transportCosts/?warrantId={{warrantId}}&fileName=wireless_riel.icc",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"transportCosts",
+						""
+					],
+					"query": [
+						{
+							"key": "warrantId",
+							"value": "{{warrantId}}"
+						},
+						{
+							"key": "fileName",
+							"value": "wireless_riel.icc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get TransportCost",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"transportCostsId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"warrantId\": \"{{warrantId}}\",\r\n  \"type\": \"type\",\r\n  \"code\": \"code\",\r\n  \"content\": \"32\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/transportCosts/{{transportCostsId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"transportCosts",
+						"{{transportCostsId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createShippinginvoices",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"shippingInvoiceId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"routeId\": \"{{routeId}}\",\r\n  \"externalInvoiceId\": \"externalInvoiceId\",\r\n  \"status\" : \"ready\",\r\n  \"side\" : \"start\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/shippinginvoices/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"shippinginvoices",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search Shippinginvoices",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.variables.get(\"variable_key\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"routeId\": \"{{routeId}}\",\r\n  \"externalInvoiceId\": \"externalInvoiceId\",\r\n  \"status\" : \"ready\",\r\n  \"side\" : \"start\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/shippinginvoices/?warrantId={{warrantId}}&status=ready",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"shippinginvoices",
+						""
+					],
+					"query": [
+						{
+							"key": "warrantId",
+							"value": "{{warrantId}}"
+						},
+						{
+							"key": "status",
+							"value": "ready"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createRepair",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"repairId\", responseBody.id);\r",
+							"    postman.setEnvironmentVariable(\"minioRepairUrl\", responseBody.url);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"warrantId\": \"{{warrantId}}\",\r\n  \"addressId\":\"{{addressId}}\",\r\n  \"workshop\":\"workshop\",\r\n  \"repairType\":\"repairType\",\r\n  \"start\": \"2022-01-01 15:04:05\",\r\n  \"end\": \"2023-01-01 15:04:05\",\r\n  \"fileName\" : \"zezalica\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/repairs/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"repairs",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post Image to minio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/home/shiggy/Documents/flinkedtree.png"
+					}
+				},
+				"url": {
+					"raw": "{{minioRepairUrl}}",
+					"host": [
+						"{{minioRepairUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all repairs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"warrantId\": \"{{warrantId}}\",\r\n  \"addressId\":\"{{addressId}}\",\r\n  \"workshop\":\"workshop\",\r\n  \"repairType\":\"repairType\",\r\n  \"start\": \"2022-01-01 15:04:05\",\r\n  \"end\": \"2023-01-01 15:04:05\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/repairs/?warrantId={{warrantId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"repairs",
+						""
+					],
+					"query": [
+						{
+							"key": "warrantId",
+							"value": "{{warrantId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get repairs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"repairId\", responseBody.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"warrantId\": \"{{warrantId}}\",\r\n  \"addressId\":\"{{addressId}}\",\r\n  \"workshop\":\"workshop\",\r\n  \"repairType\":\"repairType\",\r\n  \"start\": \"2022-01-01 15:04:05\",\r\n  \"end\": \"2023-01-01 15:04:05\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/repairs/{{repairId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"repairs",
+						"{{repairId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get warrant envents",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/warrantevents/?warrantId={{warrantId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"warrantevents",
+						""
+					],
+					"query": [
+						{
+							"key": "warrantId",
+							"value": "{{warrantId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get superset token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/auth/superset",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"auth",
+						"superset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create User for Deleteion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();",
+							"    postman.setEnvironmentVariable(\"driverId\", responseBody.id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\":\"newpassword\",\r\n    \"firstName\":\"{{$randomFirstName}}\",\r\n    \"lastName\":\"{{$randomLastName}}\",\r\n    \"mn\":\"987654321\",\r\n    \"companyId\":\"{{registeredCompany}}\",\r\n    \"addressId\":\"{{addressId}}\",\r\n    \"isDriver\" : true,\r\n    \"roles\":[\"driver\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete User Driver",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var responseBody = pm.response.json();",
+							"    postman.setEnvironmentVariable(\"driverId\", responseBody.id);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorizationHeader}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\":\"newpassword\",\r\n    \"firstName\":\"{{$randomFirstName}}\",\r\n    \"lastName\":\"{{$randomLastName}}\",\r\n    \"mn\":\"987654321\",\r\n    \"companyId\":\"{{registeredCompany}}\",\r\n    \"addressId\":\"{{addressId}}\",\r\n    \"isDriver\" : true,\r\n    \"roles\":[\"driver\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/{{driverId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						"{{driverId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -13,7 +13,8 @@ func RegisterAuth(v1 *gin.RouterGroup) {
 	auth.POST("/login", login)
 	auth.GET("/logout", logout)
 	auth.POST("/refresh", refresh)
-	auth.POST("/register", registerCompanyAndManager)
+	auth.POST("/registerCompany", registerCompanyAndManager)
+	auth.POST("/registerUser", registerUser)
 	auth.GET("/confirm/:code", confirm)
 	auth.GET("/superset/", getDashboardToken)
 
@@ -46,10 +47,18 @@ func refresh(g *gin.Context) {
 }
 
 func registerCompanyAndManager(g *gin.Context) {
-	register := services.RegisterRequest{}
+	register := services.RegisterCompanyManagerRequest{}
 	err := g.BindJSON(&register)
 	utils.Handle(err)
-	err = wire.Svc.AuthService.Register(g, register)
+	err = wire.Svc.AuthService.RegisterCompanyManager(g, register)
+	utils.Handle(err)
+	g.JSON(200, gin.H{"register": "success"})
+}
+func registerUser(g *gin.Context) {
+	register := services.RegisterUserRequest{}
+	err := g.BindJSON(&register)
+	utils.Handle(err)
+	err = wire.Svc.AuthService.RegisterUser(g, register)
 	utils.Handle(err)
 	g.JSON(200, gin.H{"register": "success"})
 }

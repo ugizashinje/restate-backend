@@ -6,10 +6,10 @@ import (
 
 type Address struct {
 	BaseModel
-	City     string      `json:"city"`
+	LocationID string `json:"locationId"`
+	// Location Location    `json:"location"`
 	Street   string      `json:"street"`
 	StreetNo null.String `json:"streetNo"`
-	Name     null.String `json:"name"`
 }
 
 func (Address) TableName() string {

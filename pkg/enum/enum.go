@@ -57,16 +57,3 @@ const (
 )
 
 type RolesNames string
-
-const (
-	Manager    RolesNames = "manager"
-	Dispatcher RolesNames = "dispatcher"
-	Driver     RolesNames = "driver"
-)
-
-func RoleValid(role string) bool {
-	if role == string(Manager) || role == string(Dispatcher) || role == string(Driver) {
-		return true
-	}
-	return false
-}

@@ -8,7 +8,6 @@ import (
 	"warrant-api/pkg/enum"
 	"warrant-api/pkg/messages"
 	"warrant-api/pkg/repo"
-	"warrant-api/pkg/session"
 	"warrant-api/pkg/utils"
 
 	"github.com/gin-gonic/gin"
@@ -53,11 +52,11 @@ type PatchWarrantRequest struct {
 
 func (svc *WarrantServiceImpl) Create(g *gin.Context, createWarrant CreateWarrantRequest) (*model.Warrant, error) {
 
-	userSession := session.GetSession(g)
-	isManager, isDispatcher, _ := userSession.Roles(createWarrant.CompanyID)
-	if !isManager && !isDispatcher {
-		utils.Handle(messages.Errorf(401, "You do not have grants to create warrant."))
-	}
+	// userSession := session.GetSession(g)
+	// isManager, isDispatcher, _ := userSession.Roles(createWarrant.CompanyID)
+	// if !isManager && !isDispatcher {
+	// 	utils.Handle(messages.Errorf(401, "You do not have grants to create warrant."))
+	// }
 	issueDate := time.Now()
 	expectedStart, err := time.Parse(config.Format.TimeFormat, createWarrant.ExpectedStart)
 	utils.Handle(err)
@@ -88,7 +87,7 @@ func (svc *WarrantServiceImpl) Create(g *gin.Context, createWarrant CreateWarran
 func (svc *WarrantServiceImpl) Delete(g *gin.Context, warrantID string) (warrant *model.Warrant, err error) {
 	// raw, _ := g.Get(ctx.Session)
 	// userSession := raw.(*session.Session)
-	svc.CheckWarrantGrants(g, warrantID, true)
+	// svc.CheckWarrantGrants(g, warrantID, true)
 	warrant = &model.Warrant{}
 	result := svc.WarrantRepo.Delete(g, warrant, warrantID)
 	utils.Handle(result.Error)
@@ -99,7 +98,7 @@ func (svc *WarrantServiceImpl) Delete(g *gin.Context, warrantID string) (warrant
 }
 
 func (svc *WarrantServiceImpl) GetById(g *gin.Context, warrantID string) (warrant *model.Warrant, err error) {
-	svc.CheckWarrantGrants(g, warrantID, false)
+	// svc.CheckWarrantGrants(g, warrantID, false)
 	warrant = &model.Warrant{}
 	result := svc.WarrantRepo.GetById(g, warrant, warrantID)
 	utils.Handle(result.Error)
@@ -153,7 +152,7 @@ func (svc *WarrantServiceImpl) updateStatus(g *gin.Context, warrant *model.Warra
 func (svc *WarrantServiceImpl) Search(c *gin.Context, query map[string]any) (warrants []model.Warrant, err error) {
 	warrants = []model.Warrant{}
 
-	result := svc.WarrantRepo.Search(c, &warrants, query, repo.GrantWarrant)
+	result := svc.WarrantRepo.Search(c, &warrants, query)
 	utils.Handle(result.Error)
 	return warrants, nil
 }
@@ -165,18 +164,18 @@ func (svc *WarrantServiceImpl) CheckWarrantGrants(g *gin.Context, warrantID stri
 	warrantAccess := &model.Warrant{}
 	dbRes := svc.WarrantRepo.GetById(g, warrantAccess, warrantID)
 	utils.Handle(dbRes.Error)
-	session := session.GetSession(g)
-	isManager, isDispatcher, isDriver := session.Roles(warrantAccess.CompanyID)
-	if (!isManager && !isDispatcher) && (!isDriver || warrantAccess.DriverID != session.User.ID) {
-		utils.Handle(messages.Errorf(404, "Warrant not found"))
-	}
+	// session := session.GetSession(g)
+	// isManager, isDispatcher, isDriver := session.Roles(warrantAccess.CompanyID)
+	// if (!isManager && !isDispatcher) && (!isDriver || warrantAccess.DriverID != session.User.ID) {
+	// 	utils.Handle(messages.Errorf(404, "Warrant not found"))
+	// }
 
-	if (isManager || isDispatcher) && write {
-		return warrantAccess
-	}
-	if isDriver && write {
-		utils.Handle(messages.Errorf(401, "You are not allowed to change this warrant"))
+	// if (isManager || isDispatcher) && write {
+	// 	return warrantAccess
+	// }
+	// if isDriver && write {
+	// 	utils.Handle(messages.Errorf(401, "You are not allowed to change this warrant"))
 
-	}
+	// }
 	return warrantAccess
 }

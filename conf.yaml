@@ -1,25 +1,34 @@
-  db:  # postgresql://restate_owner:EWJgNwtBrC20 ep-round-base-a2uslmgn.eu-central-1.aws.neon.tech /restate?sslmode=require
-    host: ep-round-base-a2uslmgn.eu-central-1.aws.neon.tech
-    port: 5432
-    user: restate_owner
-    password: EWJgNwtBrC20
-    dbname: restate
-    sslmode: require
-    # dblogging: true
-  auth:
-    jwtPemFile: warrant-pkcs8.pem # openssl genpkey -algorithm ed25519 -out warrant-pkcs8.pem
-    signingMethod: EdDSA
-    tsMailHost: localhost
-    tsMailPort: 1025
-    warrantServer: http://localhost:9876/v1
-    rateLimitPerSlot: 100
-    rateLimitTotal: 300
-  format:
-    dateFormat: 2006-01-02
-    timeFormat: 2006-01-02 15:04:05
-  redis:
-    host: localhost
-    port: 6379
-    password: magicHubAdmin
-    username: admin
+# db:  # postgresql://restate_owner:EWJgNwtBrC20 ep-round-base-a2uslmgn.eu-central-1.aws.neon.tech /restate?sslmode=require
+#   host: ep-round-base-a2uslmgn.eu-central-1.aws.neon.tech
+#   port: 5432
+#   user: restate_owner
+#   password: EWJgNwtBrC20
+#   dbname: restate
+#   sslmode: require
+#   dblogging: true
+
+db:  
+  host: localhost
+  port: 5432
+  user: restate_owner
+  password: EWJgNwtBrC20
+  dbname: restate
+  sslmode: disable
+  dblogging: true
+auth:
+  jwtPemFile: warrant-pkcs8.pem # openssl genpkey -algorithm ed25519 -out warrant-pkcs8.pem
+  signingMethod: EdDSA
+  tsMailHost: localhost
+  tsMailPort: 1025
+  warrantServer: http://localhost:9876/v1
+  rateLimitPerSlot: 100
+  rateLimitTotal: 300
+format:
+  dateFormat: 2006-01-02
+  timeFormat: 2006-01-02 15:04:05
+redis:
+  host: localhost
+  port: 6379
+  password: magicHubAdmin
+  username: admin
 

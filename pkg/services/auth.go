@@ -2,7 +2,6 @@ package services
 
 import (
 	"fmt"
-	"net/http"
 	"time"
 	"warrant-api/pkg/config"
 	"warrant-api/pkg/ctx"
@@ -28,6 +27,7 @@ type AuthServiceImpl struct {
 	UserService               UserServiceImpl
 	CompanyService            CompanyServiceImpl
 	LoginRepo                 repo.Repo[model.Login]
+	LocationRepo              repo.Repo[model.Location]
 	ConfirmationRepo          repo.Repo[model.Confirmation]
 	AddressService            AddressServiceImpl
 	TransactionalEmailService TransactionalEmailServiceImpl
@@ -35,40 +35,37 @@ type AuthServiceImpl struct {
 	SupersetGuestTokenUrl     string
 }
 
-type RegisterRequest struct {
-	CompanyAddressCity     null.String    `json:"companyAddressCity"`
-	CompanyAddressStreet   null.String    `json:"companyAddressStreet"`
-	CompanyAddressStreetNo null.String    `json:"companyAddressStreetNo"`
-	CompanyAddressName     null.String    `json:"companyAddressName"`
-	CompanyName            string         `json:"companyName"`
-	CompanyShort           string         `json:"companyShort"`
-	CompanyPIB             string         `json:"pib"`
-	CompanyAddressID       null.String    `json:"companyAddressId"`
-	CompanyMn              string         `json:"companyMn"`
-	CompanyPhone           string         `json:"companyPhone"`
-	CompanyEmail           string         `json:"companyEmail" binding:"required,email"`
-	CompanyMeta            datatypes.JSON `json:"meta"`
-
-	UserAddressCity         null.String `json:"userAddressCity"`
-	UserAddressStreet       null.String `json:"userAddressStreet"`
-	UserAddressStreetNo     null.String `json:"userAddressStreetNo"`
-	UserAddressName         null.String `json:"userAddressName"`
-	UserAddressID           null.String `json:"userAddressId"`
-	UserEmail               string      `json:"userEmail" binding:"required"`
-	UserPassword            string      `json:"userPassword" binding:"required"`
-	UserFirstName           string      `json:"userFirstName" binding:"required"`
-	UserLastName            string      `json:"userLastName" binding:"required"`
-	UserMn                  string      `json:"userMn" binding:"required"`
-	UserBirthplace          string      `json:"userBirthplace"`
-	UserPhone               string      `json:"userPhone"`
-	UserDriverID            null.String `json:"driverId"`
-	UserIsDriver            bool        `json:"isDriver"`
-	UserLicenceNumber       null.String `json:"licenceNumber"`
-	UserLicenceSerialNumber null.String `json:"licenceSerialNumber"`
-	UserLicenceExpiry       null.String `json:"licenceExpiry" binding:"required,date"`
-	UserLicenceIssued       null.String `json:"licenceIssued" binding:"required,date"`
-	UserLicenceAuthority    null.String `json:"licenceAuthority"`
-	UserRoles               []string    `json:"roles"`
+type RegisterCompanyManagerRequest struct {
+	CompanyAddress   model.Address  `json:"companyAddress"`
+	CompanyAddressID null.String    `json:"comapnyAddressID"`
+	CompanyName      string         `json:"companyName"`
+	CompanyShort     string         `json:"companyShort"`
+	CompanyPIB       string         `json:"pib"`
+	CompanyMn        string         `json:"companyMn"`
+	CompanyPhone     string         `json:"companyPhone"`
+	CompanyEmail     string         `json:"companyEmail" binding:"required,email"`
+	CompanyMeta      datatypes.JSON `json:"meta"`
+	UserAddress      model.Address  `json:"userAddress"`
+	UserAddressID    null.String    `json:"userAddressId"`
+	UserEmail        string         `json:"userEmail" binding:"required"`
+	UserPassword     string         `json:"userPassword" binding:"required"`
+	UserFirstName    string         `json:"userFirstName" binding:"required"`
+	UserLastName     string         `json:"userLastName" binding:"required"`
+	UserMn           null.String    `json:"userMn" binding:"required"`
+	UserBirthplace   null.String    `json:"userBirthplace"`
+	UserPhone        string         `json:"userPhone"`
+}
+type RegisterUserRequest struct {
+	UserAddress    model.Address `json:"userAddress"`
+	UserAddressID  null.String   `json:"userAddressId"`
+	CompanyID      null.String   `json:"companyId"`
+	UserEmail      string        `json:"userEmail" binding:"required"`
+	UserPassword   string        `json:"userPassword" binding:"required"`
+	UserFirstName  string        `json:"userFirstName" binding:"required"`
+	UserLastName   string        `json:"userLastName" binding:"required"`
+	UserMn         null.String   `json:"userMn" binding:"required"`
+	UserBirthplace null.String   `json:"userBirthplace"`
+	UserPhone      string        `json:"userPhone"`
 }
 
 type LoginRequest struct {
@@ -187,49 +184,15 @@ func (svc *AuthServiceImpl) Refresh(g *gin.Context, refresh RefreshRequest) (*Au
 }
 
 // TODO Should be transactional
-func (svc *AuthServiceImpl) Register(g *gin.Context, req RegisterRequest) (err error) {
+func (svc *AuthServiceImpl) RegisterCompanyManager(g *gin.Context, req RegisterCompanyManagerRequest) (err error) {
+	companyAddress, _ := svc.AddressService.FindOrCreate(g, req.CompanyAddress, req.CompanyAddressID)
+	userAddress, _ := svc.AddressService.FindOrCreate(g, req.CompanyAddress, req.CompanyAddressID)
 
-	if !req.CompanyAddressID.Valid && !req.CompanyAddressCity.Valid && !req.CompanyAddressStreet.Valid {
-		utils.Handle(messages.Errorf(404, "Molimo vas popunite kompanijsku adresu"))
-	}
-
-	if !req.UserAddressID.Valid && !req.UserAddressCity.Valid && !req.UserAddressStreet.Valid {
-		utils.Handle(messages.Errorf(404, "Molimo vas popunite adresu korisnika"))
-	}
-
-	if !req.CompanyAddressID.Valid {
-		var createAddress *CreateAddressRequest
-		if req.CompanyAddressCity.Valid && req.CompanyAddressStreet.Valid {
-			createAddress = &CreateAddressRequest{
-				City:     req.CompanyAddressCity.String,
-				Street:   req.CompanyAddressStreet.String,
-				StreetNo: req.CompanyAddressStreetNo,
-				Name:     req.CompanyAddressName,
-			}
-			companyAddress, err := svc.AddressService.Create(g, *createAddress)
-			utils.Handle(err)
-			req.CompanyAddressID = null.NewString(companyAddress.ID, true)
-		} else {
-			utils.Handle(messages.Errorf(http.StatusBadRequest, "Address id not provided nor City and Street"))
-		}
-		utils.Handle(err)
-	}
-	if !req.UserAddressID.Valid {
-		createAddress := CreateAddressRequest{
-			City:     req.UserAddressCity.String,
-			Street:   req.UserAddressStreet.String,
-			StreetNo: req.UserAddressStreetNo,
-			Name:     req.UserAddressName,
-		}
-		userAddress, err := svc.AddressService.Create(g, createAddress)
-		utils.Handle(err)
-		req.UserAddressID = null.NewString(userAddress.ID, true)
-	}
 	createCompany := CreateCompanyRequest{
 		Name:      req.CompanyName,
 		Short:     req.CompanyShort,
 		PIB:       req.CompanyPIB,
-		AddressID: req.CompanyAddressID.String,
+		AddressID: companyAddress.ID,
 		Mn:        req.CompanyMn,
 		Phone:     req.CompanyPhone,
 		Email:     req.CompanyEmail,
@@ -239,22 +202,36 @@ func (svc *AuthServiceImpl) Register(g *gin.Context, req RegisterRequest) (err e
 	utils.Handle(err)
 
 	createUser := CreateUserRequest{
-		Email:               req.UserEmail,
-		Password:            req.UserPassword,
-		FirstName:           req.UserFirstName,
-		LastName:            req.UserLastName,
-		Mn:                  req.UserMn,
-		Birthplace:          req.UserBirthplace,
-		Phone:               req.UserPhone,
-		AddressID:           req.UserAddressID.String,
-		CompanyID:           company.ID,
-		IsDriver:            req.UserIsDriver,
-		LicenceNumber:       req.UserLicenceNumber,
-		LicenceSerialNumber: req.UserLicenceSerialNumber,
-		LicenceExpiry:       req.UserLicenceExpiry,
-		LicenceIssued:       req.UserLicenceIssued,
-		LicenceAuthority:    req.UserLicenceAuthority,
-		Roles:               []string{"manager"},
+		Email:      req.UserEmail,
+		Password:   req.UserPassword,
+		FirstName:  req.UserFirstName,
+		LastName:   req.UserLastName,
+		Mn:         req.UserMn,
+		Birthplace: req.UserBirthplace,
+		Phone:      req.UserPhone,
+		AddressID:  userAddress.ID,
+		CompanyID:  null.StringFrom(company.ID),
+		Roles:      []string{"manager"},
+	}
+	_, err = svc.UserService.Create(g, createUser)
+	utils.Handle(err)
+
+	return nil
+}
+func (svc *AuthServiceImpl) RegisterUser(g *gin.Context, req RegisterUserRequest) (err error) {
+	userAddress, _ := svc.AddressService.FindOrCreate(g, req.UserAddress, req.UserAddressID)
+
+	createUser := CreateUserRequest{
+		Email:      req.UserEmail,
+		Password:   req.UserPassword,
+		FirstName:  req.UserFirstName,
+		LastName:   req.UserLastName,
+		Mn:         req.UserMn,
+		Birthplace: req.UserBirthplace,
+		Phone:      req.UserPhone,
+		AddressID:  userAddress.ID,
+		CompanyID:  req.CompanyID,
+		Roles:      []string{"manager"},
 	}
 	_, err = svc.UserService.Create(g, createUser)
 	utils.Handle(err)
@@ -283,14 +260,7 @@ func (svc *AuthServiceImpl) Confirm(g *gin.Context, code string) (*model.Confirm
 }
 
 func (svc *AuthServiceImpl) DashboardToken(g *gin.Context) (*superset.AuthSuccess, error) {
-	// sessionRaw, ok := g.Get(ctx.Session)
-	// if !ok {
-	// 	utils.Handle(messages.Unauthorized())
-	// }
-	// userSession, ok := sessionRaw.(*session.Session)
-	// if !ok {
-	// 	utils.Handle(messages.Unauthorized())
-	// }
+
 	guestRequest := session.SupersetGuestRequest{
 		User: session.SupersetUser{
 			Username: "embed_role",

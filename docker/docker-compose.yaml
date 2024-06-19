@@ -1,4 +1,37 @@
 services:
+  db:
+    image: timescale/timescaledb-ha:pg16.2-ts2.14.2-all
+    # command: ["postgres", "-c", "log_statement=all", "-D", "/home/postgres/dbdata"]
+    command: |
+      postgres 
+      -c wal_level=replica 
+      -c hot_standby=on 
+      -c max_wal_senders=10 
+      -c max_replication_slots=10 
+      -c hot_standby_feedback=on
+      -c log_statement=all
+      -c hba_file=/tmp/postgres/conf/pg_hba.conf
+      -c listen_addresses='*'
+    container_name: postgres
+    healthcheck:
+      test: "pg_isready -U admin --dbname=restate"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: restate
+      POSTGRES_PASSWORD: EWJgNwtBrC20
+      POSTGRES_USER: restate_owner
+      restart: always
+    volumes:
+      - ./postgres/postgres-initdb:/docker-entrypoint-initdb.d
+      - ./postgres/postgres-certs:/var/lib/postgresql/certs/
+      # - ./postgres/conf/postgresql.conf:/home/postgres/pgdata/data/postgresql.conf
+      # - ./postgres/data/:/home/postgres/pgdata/data
+      # - pgdata:/home/postgres/pgdata/data
+      - ./postgres/data/:/tmp/postgres/conf/
 
   typesense:
     image: typesense/typesense:26.0
@@ -8,7 +41,25 @@ services:
       - "8108:8108"
     volumes:
       - typesense-data:/data
-    command: '--data-dir /data --api-key=xyz --enable-cors'
+    command: "--data-dir /data --api-key=xyz --enable-cors"
+    healthcheck:
+      test: "pg_isready -U admin --dbname=dev"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  typesense-dashboard:
+    image: sijakinjic/typesense-dashboard:v0.1
+    container_name: typesense-dashboard
+    ports:
+      - 3030:80
+
+  pushsense:
+    image: pushsense:v0.2
+    container_name: pushsense
+    depends_on:
+      - typesense
+    volumes:
+      - ./pushsense:/app/config
 
   mailhog:
     image: mailhog/mailhog
@@ -29,11 +80,25 @@ services:
     container_name: redis
     restart: always
     ports:
-      - '6379:6379'
+      - "6379:6379"
     command: redis-server --save 20 1 --loglevel warning --requirepass magicHubAdmin
-    volumes: 
+    volumes:
       - cache:/data
+  validateEmail:
+    image: sijakinjic/warrent_insights:v0.6
+    ports:
+      - 9877:9877
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: restate_owner
+      POSTGRES_PASSWORD: EWJgNwtBrC20
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: restate
+      POSTGRES_SSL_MODE: disable
+    container_name: validateEmail
 
 volumes:
-  cache:  
+  cache:
+    driver: local
+  typesense-data:
     driver: local
